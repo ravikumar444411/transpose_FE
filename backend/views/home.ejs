@@ -1,0 +1,60 @@
+<%- include('./partials/header') %>
+
+    <div id="login">
+        
+        <%if(empid == null) {%>
+            <button onclick="window.location.href='/login'">Login</button>
+            <button onclick="window.location.href='/signup'">Signup</button>    
+        <%}else{%>
+            <button onclick="window.location.href='/logout'">Logout</button>
+        <%}%>
+        <button onclick="window.location.href='/displayall'">Display all records</button>
+    </div>
+
+    <table>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Username
+            </th>
+            <th>
+                Email
+            </th>
+        </tr>
+            
+        <%if(empid != null) {%>
+            <tr>      
+
+                <td>
+                    <%=record.fname%></td>    
+                </td>
+
+                <td>
+                    <%=record.lname%></td>    
+                </td>
+                    
+                <td>
+                    <%=record.username%></td>    
+                </td>
+                    
+                <td>
+                    <%=record.email%></td>    
+                </td>
+
+                <td>
+                    <form action="/update/<%=record._id%>" method="GET">
+                        <button type="submit">update</button>
+                    </form>
+                </td>
+
+            </tr>
+        <%}%>
+
+    </table>
+    
+<%- include('./partials/footer') %>
