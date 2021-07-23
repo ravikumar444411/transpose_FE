@@ -13,7 +13,7 @@ let routeHandover = require('./Routes/routeHandover');
 let routeMenu = require('./Routes/routeMenu');
 let routePickup = require('./Routes/routePickUp');
 let {store,secret,conn} = require('./DB-Connect/connect-db');
-let port = process.env.PORT;
+let port = process.env.PORT || 3000;
 
 const sessionConfig = {
     store,
