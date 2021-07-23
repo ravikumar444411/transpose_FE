@@ -13,12 +13,12 @@ let pickUpSchema=new mongoose.Schema({
     },
     date:{
         type:Date,
-        required:true,
+        // required:true,
         default:Date.now()
     },
     location: {
         type: String,
-        required: true, 
+        // required: true, 
     }
 },{timestamps:true});
 
