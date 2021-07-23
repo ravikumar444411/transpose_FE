@@ -12,9 +12,16 @@ let routeDelivery = require('./Routes/routeDelivery');
 let routeHandover = require('./Routes/routeHandover');
 let routeMenu = require('./Routes/routeMenu');
 let routePickup = require('./Routes/routePickUp');
-let sessionConfig = require('./DB-Connect/connect-db');
+let {store,secret,conn} = require('./DB-Connect/connect-db');
 let port = process.env.PORT;
-// || 3000
+
+const sessionConfig = {
+    store,
+    name: 'session',
+    secret,
+    resave: false,
+    saveUnitialized: true
+};
 
 app.set('view engine','ejs');
 app.set("port",port);
