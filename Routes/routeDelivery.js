@@ -2,6 +2,7 @@ const express = require('express');
 const router=express.Router();
 const deliveryModel=require('../Models/deliveryModel');
 const mongoose=require('mongoose');
+let dbConnect = require('../DB-Connect/connect-db');
 // const DB='mongodb+srv://new-user1:SptGo9T4Kg4W9PbL@cluster0.mp33i.mongodb.net/logistiexdb?retryWrites=true&w=majority';
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })

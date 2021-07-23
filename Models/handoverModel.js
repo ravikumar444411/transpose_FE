@@ -9,7 +9,7 @@ let handoverSchema=new mongoose.Schema({
     shipments:{type:Number},
     date:{
         type:Date,
-        required:true,
+        // required:true,
         default:Date.now()
     },
     location: {
