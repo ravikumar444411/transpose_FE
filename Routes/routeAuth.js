@@ -13,7 +13,7 @@ router.get('/',(req,res)=> {
 });
 
 router.get('/signup',(req,res)=> {
-    res.status(200).send('Signup please!');
+    res.status(200).send('Signup!');
 }); 
 
 router.post('/signup',bodyParser,async(req,res)=> {
