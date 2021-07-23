@@ -38,7 +38,7 @@ router.post('/postPickup', urlencodedParser, async function (req, res) {
    
     await newUser.save((err)=>{
         if(err){
-            res.status(500).json({msg:'Sorry, internal Server errors'});
+            res.status(500).json({msg:'Sorry, internal Server errors',error:err});
         }else{
             res.status(200).json({msg:'your data has been saved'})
         }
