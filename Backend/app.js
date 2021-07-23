@@ -13,7 +13,8 @@ let routeHandover = require('./Routes/routeHandover');
 let routeMenu = require('./Routes/routeMenu');
 let routePickup = require('./Routes/routePickUp');
 let sessionConfig = require('./DB-Connect/connect-db');
-let port = process.env.PORT || 3000;
+let port = process.env.PORT;
+// || 3000
 
 app.set('view engine','ejs');
 app.set("port",port);
@@ -29,5 +30,5 @@ app.use('/pickup',routePickup);
 
 // port = Math.floor(Math.random()*8976+1024);
 app.listen(port,()=> {
-    console.log("The server is connected to 3000");
+    console.log(`The server is connected to ${port}`);
 });
