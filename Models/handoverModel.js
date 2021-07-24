@@ -14,7 +14,8 @@ let handoverSchema=new mongoose.Schema({
     },
     location: {
         type: String,
-        //required: true, 
+        required: true,
+        default:"Mars" 
     }
 },{timestamps:true});
 
