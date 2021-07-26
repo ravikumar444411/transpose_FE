@@ -35,6 +35,7 @@ app.get('/',(req,res)=> {
 });
 
 app.use('/auth',routeLogin);
+app.use('/menu',routeMenu);
 app.use('/delivery',routeDelivery);
 app.use('/handover',routeHandover);
 app.use('/pickup',routePickup);
