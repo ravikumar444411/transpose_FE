@@ -13,6 +13,8 @@ router.get('/',(req,res)=> {
 
 router.get('/scan',(req,res)=> {
 
+    let otp = generateOTP();
+    console.log(otp);
     res.status(200).send('Barcode scanning has started!');
 });
 
