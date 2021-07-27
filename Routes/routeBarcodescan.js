@@ -4,7 +4,7 @@ let async = require('async');
 let bodyParser = require('body-parser').json();
 let router = express.Router();
 let dbConnect = require('../DB-Connect/connect-db');
-let Barcodescan = require('../Models/BarcodescanModel');
+let Barcodescan = require('../Models/barcodescanModel');
 let generateOTP = require('../OperationsModules/generateOTP');
 
 router.get('/scan',(req,res)=> {
