@@ -5,7 +5,7 @@ function generateOTP() {
     let OTP = otp.toString();
     let temp = "";
 
-    for(let i=0;i<6-OTP.length;i++) {
+    for(let i=0;i<(6-OTP.length);i++) {
         temp += "0";
     }
 
