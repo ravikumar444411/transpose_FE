@@ -7,12 +7,16 @@ let dbConnect = require('../DB-Connect/connect-db');
 let Barcodescan = require('../Models/barcodescanModel');
 let generateOTP = require('../OperationsModules/generateOTP');
 
+router.get('/',(req,res)=> {
+    res.status(200).send('Start scanning!');
+});
+
 router.get('/scan',(req,res)=> {
 
     res.status(200).send('Barcode scanning has started!');
 });
 
-router.post('/scan',(req,res)=> {
+router.post('/scan',bodyParser,(req,res)=> {
 
     let barcodeData = req.body.barcodeData;
     let otp = generateOTP();
@@ -31,7 +35,7 @@ router.post('/scan',(req,res)=> {
 
 });
 
-router.post('/validate',(req,res)=> {
+router.post('/validate',bodyParser,(req,res)=> {
     
     let barcodeData = req.body.barcodeData;
     let userOTP = req.body.otp;
