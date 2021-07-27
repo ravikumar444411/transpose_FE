@@ -21,9 +21,25 @@ let barcodescanSchema = new mongoose.Schema({
     isSuccess : {
         type: Boolean,
         default: false
+    },
+    otp : {
+        type: String,
+        default: ""
     }
     
 });
+
+// let productSchema = new mongoose.Schema({
+
+//     pid: {
+//         type: String,
+//         default: ""
+//     },
+//     barcodeStatus: {
+//         type: [barcodescanSchema],
+//         default: {}
+//     }
+// });
 
 module.exports = mongoose.model("Barcodescan",barcodescanSchema,"Barcodescan");
 
