@@ -1,7 +1,7 @@
 
 
 function generateOTP() {
-    let otp = Math.random()*10000000;
+    let otp = Math.floor(Math.random()*999999 + 1);
     // let OTP = otp.toString();
     // let temp = "";
 
