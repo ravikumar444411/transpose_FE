@@ -40,7 +40,7 @@ app.use('/menu',routeMenu);
 app.use('/delivery',routeDelivery);
 app.use('/handover',routeHandover);
 app.use('/pickup',routePickup);
-app.use('/sellers',routeSellers);
+
 // port = Math.floor(Math.random()*8976+1024);
 app.listen(port,()=> {
     console.log(`The server is connected to ${port}`);
