@@ -21,7 +21,7 @@ router.get('/',(req,res,next)=>{
 })
     
 router.get('/getMenu',async (req,res) => {
-     console.log('');
+    //console.log('');
      const data= {
         deliveries:await deliveryModel.count({}),
         pickUp:await pickUpModel.count({}),

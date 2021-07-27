@@ -1,6 +1,5 @@
 const express = require('express');
 const router=express.Router();
-const pickupModel=require('../Models/pickupModel');
 const sellersModel=require('../Models/sellersModel');
 const mongoose=require('mongoose');
 let dbConnect = require('../DB-Connect/connect-db');
@@ -16,9 +15,12 @@ router.get('/',(req,res,next)=>{
     arr.push( { "/postMenu" :"for adding options"});
     res.send( arr);
 })
-
-router.get('/getPickup',(req,res) => {
-    pickupModel.find({}).exec((err,data)=>{
+    
+router.get('/getSellers',async (req,res) => {
+    //  console.log('get all users');
+    const find=await req.query.id;
+    
+    sellersModel.find({relation:find}).exec((err,data)=>{
         if(err){
              console.log('error users not found');
             res.send(err);
@@ -30,12 +32,12 @@ router.get('/getPickup',(req,res) => {
     })
 });
 
-router.post('/postPickup', urlencodedParser, async function (req, res) {
+router.post('/postSellers', urlencodedParser, async function (req, res) {
     
-    // console.log(req.body);
+    console.log(req.body);
     const data=await req.body;
-    const newUser=await new pickupModel(data);
-    newUser.sellers=await sellersModel.count({});
+    const newUser=await new sellersModel(data);
+    
     await newUser.save((err)=>{
         if(err){
             res.status(500).json({msg:'Sorry, internal Server errors',error:err});
