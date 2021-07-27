@@ -13,7 +13,9 @@ let routeHandover = require('./Routes/routeHandover');
 let routeMenu = require('./Routes/routeMenu');
 let routePickup = require('./Routes/routePickUp');
 let routeSellers = require('./Routes/routeSellers');
+let routeBarcode = require('./Routes/routeBarcodescan');
 let {store,secret,conn} = require('./DB-Connect/connect-db');
+
 let port = process.env.PORT || 3000;
 
 const sessionConfig = {
@@ -42,6 +44,7 @@ app.use('/handover',routeHandover);
 app.use('/pickup',routePickup);
 app.use('/barcode',routeBarcode);
 app.use('/sellers',routeSellers);
+
 // port = Math.floor(Math.random()*8976+1024);
 app.listen(port,()=> {
     console.log(`The server is connected to ${port}`);
