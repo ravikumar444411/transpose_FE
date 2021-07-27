@@ -1,6 +1,9 @@
 const express = require('express');
 const router=express.Router();
-const menuModel=require('../Models/modelMenu');
+const menuModel=require('../Models/menuModel');
+const handOverModel=require('../Models/handoverModel');
+const pickUpModel=require('../Models/pickupModel');
+const deliveryModel=require('../Models/deliveryModel');
 const mongoose=require('mongoose');
 let dbConnect = require('../DB-Connect/connect-db');
 // const DB='mongodb+srv://new-user1:SptGo9T4Kg4W9PbL@cluster0.mp33i.mongodb.net/logistiexdb?retryWrites=true&w=majority';
@@ -17,18 +20,27 @@ router.get('/',(req,res,next)=>{
     res.send( arr);
 })
     
-router.get('/getMenu',(req,res) => {
-    //  console.log('get all users');
-    menuModel.find().exec((err,data)=>{
-        if(err){
-             console.log('error users not found');
-            res.send(err);
-        }else{
-            //  console.log(data);
-            //res.json(data);
-            res.send(data);
-        }
-    })
+router.get('/getMenu',async (req,res) => {
+     console.log('');
+     const data= {
+        deliveries:await deliveryModel.count({}),
+        pickUp:await pickUpModel.count({}),
+        handOver:await handOverModel.count({}),
+        price:1222,
+        id:Math.random(),
+    }
+    const newUser=await new menuModel(data);
+    res.send(newUser);
+    // menuModel.find().exec((err,data)=>{
+    //     if(err){
+    //          console.log('error users not found');
+    //         res.send(err);
+    //     }else{
+    //         //  console.log(data);
+    //         //res.json(data);
+    //         res.send(data);
+    //     }
+    // })
 });
 
 router.post('/postMenu', urlencodedParser, async function (req, res) {
