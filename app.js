@@ -12,6 +12,7 @@ let routeDelivery = require('./Routes/routeDelivery');
 let routeHandover = require('./Routes/routeHandover');
 let routeMenu = require('./Routes/routeMenu');
 let routePickup = require('./Routes/routePickUp');
+let routeBarcode = require('./Routes/routeBarcodescan');
 let {store,secret,conn} = require('./DB-Connect/connect-db');
 let port = process.env.PORT || 3000;
 
@@ -38,6 +39,7 @@ app.use('/auth',routeLogin);
 app.use('/delivery',routeDelivery);
 app.use('/handover',routeHandover);
 app.use('/pickup',routePickup);
+app.use('/barcode',routeBarcode);
 
 // port = Math.floor(Math.random()*8976+1024);
 app.listen(port,()=> {
