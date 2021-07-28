@@ -12,7 +12,6 @@ import {
   Button,
   Icon,
   IconButton,
-  HStack,
   Divider
 } from 'native-base';
 

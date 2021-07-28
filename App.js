@@ -1,15 +1,15 @@
 import React from 'react';
-import { NativeBaseProvider, Box } from 'native-base';
 import Login from './src/Login';
+import Dashboard from './src/Dashboard';
+import Test from './src/Test'
 
 function App() {
   return (
-    <NativeBaseProvider>
-      <Login/>
-    </NativeBaseProvider>
+    
+      //  <Login/> 
+    <Dashboard/> 
+    //  <Test/>
   );
 }
-
-
 export default App;
 
