@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 // import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import axios from 'axios'
 import {
   NativeBaseProvider,
   Box,
@@ -15,9 +16,27 @@ import {
   HStack,
   Divider
 } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import { loginUrl } from './Config';
 
 export default function Login() {
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+  const navigation = useNavigation();
 
+  const handleLogin=()=>{
+    console.log(email,password)
+
+    axios.post(loginUrl,{email:email, password:password})
+    .then((response) => {
+      navigation.navigate('dashboard');
+
+   }, (error) => {
+      // alert(error);
+  }); 
+  }
+
+  
  return (
       <NativeBaseProvider>
           <Box flex={1}>
@@ -41,13 +60,13 @@ export default function Login() {
             <FormControl.Label _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
                 Email ID
             </FormControl.Label>
-            <Input />
+            <Input value={email} onChangeText={setEmail} />
           </FormControl>
           <FormControl mb={5}>
             <FormControl.Label  _text={{color: 'muted.700', fontSize: 'sm', fontWeight: 600}}>
                 Password
             </FormControl.Label>
-            <Input type="password" />
+            <Input type="password" value={password} onChangeText={setPassword} />
             <Link
               _text={{ fontSize: 'xs', fontWeight: '700', color:'cyan.500' }}
               alignSelf="flex-end"
@@ -57,7 +76,7 @@ export default function Login() {
             </Link>
           </FormControl>
           <VStack  space={2}>
-          <Button colorScheme="cyan" _text={{color: 'white' }}>
+          <Button colorScheme="cyan" _text={{color: 'white' }} onPress={handleLogin}>
               Login
           </Button>
 
