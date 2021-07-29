@@ -1,6 +1,6 @@
 
 let express = require('express');
-let User = require('../Models/UserModel');
+let User = require('../Models/authModel');
 // let Kafka = require('node-rdkafka');
 // let producer = require('../Kafka/producer');
 // let consumer = require('../Kafka/consumer');
