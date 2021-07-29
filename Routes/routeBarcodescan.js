@@ -27,7 +27,7 @@ router.post('/scan',bodyParser,(req,res)=> {
     let data = {barcodeData};
 
     Barcodescan.findOne(data).then((record)=> {
-        
+
         if(record == null || record == undefined) {
             barcode.save((err)=> {
                 if(err) {
@@ -38,9 +38,9 @@ router.post('/scan',bodyParser,(req,res)=> {
             });
         } else {
             Barcodescan.updateOne(data,{$set : {otp}}).then(record=> {
-                console.log(record);
+                res.status(201).json({'otp':otp});
             }).catch(err=> {
-                console.log(err);
+                res.status(500).send('Not able to save the barcode!');
             });
         }
     });
