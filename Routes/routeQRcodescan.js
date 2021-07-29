@@ -52,12 +52,12 @@ router.post('/validate',bodyParser,(req,res)=> {
     let qrcodeData = req.body.qrcodeData;
     let userOTP = req.body.otp;
 
-    Qrcodescan.findOne({qrcodeData}).then((record)=> {
+    Qrcodescan.findOne({qrcodeData:qrcodeData}).then((record)=> {
 
         if(record == undefined || record == null) {
             res.status(500).send('qrcode Invalid! Please try again.');
         } else {
-            if(JSON.stringify(record.otp) == userOTP) {
+            if(record.otp == userOTP) {
                 res.status(200).send('qrcode scanning completed successfully!');
             } else {
                 res.status(404).send('Item not eligible for Pickup!');

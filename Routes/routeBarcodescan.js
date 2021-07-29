@@ -52,12 +52,12 @@ router.post('/validate',bodyParser,(req,res)=> {
     let barcodeData = req.body.barcodeData;
     let userOTP = req.body.otp;
 
-    Barcodescan.findOne({barcodeData}).then((record)=> {
+    Barcodescan.findOne({barcodeData: barcodeData}).then((record)=> {
 
         if(record == undefined || record == null) {
             res.status(500).send('Barcode Invalid! Please try again.');
         } else {
-            if(JSON.stringify(record.otp) == userOTP) {
+            if(record.otp == userOTP) {
                 res.status(200).send('Barcode scanning completed successfully!');
             } else {
                 res.status(404).send('Item not eligible for Pickup!');
