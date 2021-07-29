@@ -20,7 +20,7 @@ router.post('/scan',bodyParser,(req,res)=> {
 
     let qrcodeData = req.body.qrcodeData;
     let otp = generateOTP();
-    let qrcode = new qrcodescan({
+    let qrcode = new Qrcodescan({
         qrcodeData,
         otp
     });
@@ -49,7 +49,7 @@ router.post('/scan',bodyParser,(req,res)=> {
 
 router.post('/validate',bodyParser,(req,res)=> {
     
-    let qrodeData = req.body.qrcodeData;
+    let qrcodeData = req.body.qrcodeData;
     let userOTP = req.body.otp;
 
     Qrcodescan.findOne({qrcodeData}).then((record)=> {
