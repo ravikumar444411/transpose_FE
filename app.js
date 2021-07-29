@@ -14,6 +14,7 @@ let routeMenu = require('./Routes/routeMenu');
 let routePickup = require('./Routes/routePickUp');
 let routeSellers = require('./Routes/routeSellers');
 let routeBarcode = require('./Routes/routeBarcodescan');
+let routeQRcode = require('./Routes/routeQRcodescan');
 let {store,secret,conn} = require('./DB-Connect/connect-db');
 
 let port = process.env.PORT || 3000;
@@ -43,6 +44,7 @@ app.use('/delivery',routeDelivery);
 app.use('/handover',routeHandover);
 app.use('/pickup',routePickup);
 app.use('/barcode',routeBarcode);
+app.use('/qrcode',routeQRcode);
 app.use('/sellers',routeSellers);
 
 // port = Math.floor(Math.random()*8976+1024);
