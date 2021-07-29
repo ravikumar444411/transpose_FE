@@ -45,7 +45,7 @@ router.post('/validate',bodyParser,(req,res)=> {
         if(record == undefined || record == null) {
             res.status(500).send('Barcode Invalid! Please try again.');
         } else {
-            if(record.otp == userOTP) {
+            if(JSON.stringify(record.otp) == userOTP) {
                 res.status(200).send('Barcode scanning completed successfully!');
             } else {
                 res.status(404).send('Item not eligible for Pickup!');
