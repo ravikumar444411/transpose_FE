@@ -4,7 +4,7 @@ let async = require('async');
 let bodyParser = require('body-parser').json();
 let router = express.Router();
 let dbConnect = require('../DB-Connect/connect-db');
-let User = require('../Models/UserModel');
+let User = require('../Models/authModel');
 let insertRecords = require('../OperationsModules/insert');
 let generateAccessToken = require('../OperationsModules/generateAccessToken');
 
