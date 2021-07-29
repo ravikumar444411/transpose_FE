@@ -37,7 +37,7 @@ router.post('/scan',bodyParser,(req,res)=> {
                 }
             });
         } else {
-            Barcodescan.updateOne(data,{$set : {otp}}).then(record=> {
+            Barcodescan.updateOne(data,{$set : {'otp':otp}}).then(record=> {
                 res.status(201).json({'otp':otp});
             }).catch(err=> {
                 res.status(500).send('Not able to save the barcode!');
