@@ -1,6 +1,8 @@
 import { Container,ArrowForwardIcon } from 'native-base';
-import React from 'react';
-import{StyleSheet,Text,TouchableOpacity,View, ScrollView, TextInput} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios'
+import{StyleSheet,Text,TouchableOpacity,View, ScrollView, TextInput,getPick} from 'react-native';
+import {getPickup} from './Config'
 
 const Mainbox =()=>{
     return <TouchableOpacity style={styles.mainbox}>
@@ -17,45 +19,35 @@ const Mainbox =()=>{
 </TouchableOpacity>
 }
 const Pickup = () => {
+    const [data,setData] = useState([]);
+    useEffect(()=>{
+        axios.get(getPickup)
+            .then((res) => {
+                setData(res.data)
+        }, (error) => {
+            // alert(error);
+        }); 
+    })
     return (
     <Container style={styles.containter}>
       
     <Text style={{marginTop:-20},styles.fontvalue}>please select a pickup to work on</Text>
         <ScrollView style={styles.homepage} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
-            <Mainbox/>
+            {data.map(single=>(
+            <TouchableOpacity style={styles.mainbox}>
+            <View style={styles.innerup}>
+                <Text style={styles.fontvalue}>{single.title}</Text>
+                <ArrowForwardIcon style={{color:"#67a4f5",marginLeft:180,marginTop:-5}} />
+            </View>
+            <View style={styles.innerdown}>
+                <Text style={styles.fontvalue}>Sellar</Text>
+                <Text style={styles.fontvalue}>{single.date.substr(0,10)}</Text>
+                <Text style={styles.fontvalue}>Shipment</Text>
+                <Text style={styles.fontvalue}>{single.shipments}</Text>
+            </View>
+        </TouchableOpacity>
+        ))}
+            
         </ScrollView>
             </Container>
     );

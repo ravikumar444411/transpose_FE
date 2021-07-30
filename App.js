@@ -10,6 +10,7 @@ const Stack = createStackNavigator();
 
 function App() {
   return (
+    <NativeBaseProvider>
     <NavigationContainer>
     <Stack.Navigator  initialRouteName={'Login'}>
       <Stack.Screen name="Login" component={Login}   
@@ -20,8 +21,13 @@ function App() {
         options={{ 
             header:()=>null         
           }} />
+      <Stack.Screen name="pickup" component={Pickup}   
+        options={{ 
+            header:()=>null         
+          }} />
     </Stack.Navigator>
   </NavigationContainer>
+  </NativeBaseProvider>
 
   );
 }
