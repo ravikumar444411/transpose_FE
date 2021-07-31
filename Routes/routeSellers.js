@@ -34,7 +34,7 @@ router.get('/getSellers',async (req,res) => {
 
 router.post('/postSellers', urlencodedParser, async function (req, res) {
     
-    console.log(req.body);
+    // console.log(req.body);
     const data=await req.body;
     const newUser=await new sellersModel(data);
     
