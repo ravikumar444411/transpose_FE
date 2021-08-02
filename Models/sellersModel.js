@@ -5,6 +5,10 @@ let menuSchema = new mongoose.Schema({
         type:Number,
         required:true
     },
+    relation:{
+      type: String ,
+      required:true
+    },
     seller:{
       type: String,
       required:true
