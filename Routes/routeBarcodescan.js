@@ -24,7 +24,7 @@ router.post('/scan',bodyParser,(req,res)=> {
         barcodeData,
         otp,
         pending: true,
-        completed: true,
+        completed: false,
         cancelled: false
     });
     let data = {barcodeData};
@@ -71,7 +71,12 @@ router.post('/validate',bodyParser,(req,res)=> {
             res.status(500).send('Barcode Invalid! Please try again.');
         } else {
             if(record.otp == userOTP) {
-                res.status(200).send('Barcode scanning completed successfully!');
+
+                record.completed = true;
+                record.pending = false;
+                record.count = 0;
+
+                res.status(200).json({'msg':'Barcode scanning completed successfully!','pending':false,'completed':true});
             } else {
                 res.status(404).send('Item not eligible for Pickup!');
             }
