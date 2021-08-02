@@ -20,10 +20,14 @@ router.post('/scan',bodyParser,(req,res)=> {
 
     let qrcodeData = req.body.qrcodeData;
     let otp = generateOTP();
-    let qrcode = new Qrcodescan({
+    let qrData = {
         qrcodeData,
-        otp
-    });
+        otp,
+        pending: true,
+        completed: false,
+        cancelled: false
+    };
+    let qrcode = new Qrcodescan(qrData);
     let data = {qrcodeData};
 
     Qrcodescan.findOne(data).then((record)=> {
@@ -33,15 +37,27 @@ router.post('/scan',bodyParser,(req,res)=> {
                 if(err) {
                     res.status(500).send('Not able to save the qrcode!');
                 } else {
-                    res.status(201).json({'otp':otp});
+                    res.status(201).json({'otp':otp,'pending':true,'completed':false});
                 }
             });
         } else {
-            Qrcodescan.updateOne(data,{$set : {'otp':otp}}).then(record=> {
-                res.status(201).json({'otp':otp});
-            }).catch(err=> {
-                res.status(500).send('Not able to save the barcode!');
-            });
+
+            record.count++; 
+            console.log(record);
+
+            if(record.count > 3) {
+                res.status(500).send('OTP generation limit exceeded! Try again after 24 hours.');
+            } else {
+
+                qrData.count = record.count;
+
+                Qrcodescan.updateOne(data,{$set : qrData}).then(record=> {
+                    res.status(201).json({'otp':otp,'pending':true,'completed':false});
+                }).catch(err=> {
+                    res.status(500).send('Not able to save the qrcode!');
+                });
+            }
+            
         }
     });
 
@@ -51,19 +67,32 @@ router.post('/validate',bodyParser,(req,res)=> {
     
     let qrcodeData = req.body.qrcodeData;
     let userOTP = req.body.otp;
+    let data = {qrcodeData};
 
-    Qrcodescan.findOne({qrcodeData:qrcodeData}).then((record)=> {
+    Qrcodescan.findOne({qrcodeData:qrcodeData}).then((rec)=> {
 
-        if(record == undefined || record == null) {
+        if(rec == undefined || rec == null) {
             res.status(500).send('qrcode Invalid! Please try again.');
         } else {
-            if(record.otp == userOTP) {
-                res.status(200).send('qrcode scanning completed successfully!');
+            if(rec.otp == userOTP) {
+
+                rec.completed = true;
+                rec.pending = false;
+                rec.count = 0;
+                rec.isSuccess = true;
+
+                Qrcodescan.updateOne(data,{$set : rec}).then(record=> {
+                    res.status(200).json({'msg':'Qrcode scanning completed successfully!','pending':false,'completed':true});
+                }).catch(err=> {
+                    res.status(500).send('Not able to save the qrcode!');
+                });
+                
             } else {
                 res.status(404).send('Item not eligible for Pickup!');
             }
         }
     }).catch(err=> {
+        console.log(err);
         res.status(500).json({'error':err});
     });
 });

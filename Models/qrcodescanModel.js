@@ -25,6 +25,10 @@ let qrcodescanSchema = new mongoose.Schema({
     otp : {
         type: String,
         default: ""
+    },
+    count: {
+        type: Number,
+        default: 1
     }
     
 });

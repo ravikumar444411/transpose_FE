@@ -25,7 +25,7 @@ router.post('/scan',bodyParser,(req,res)=> {
         otp,
         pending: true,
         completed: false,
-        cancelled: false
+        cancelled: false,
     };
     let barcode = new Barcodescan(barData);
     let data = {barcodeData};
@@ -42,13 +42,14 @@ router.post('/scan',bodyParser,(req,res)=> {
             });
         } else {
 
-            record.count++;
+            record.count++; 
+            console.log(record);
 
             if(record.count > 3) {
                 res.status(500).send('OTP generation limit exceeded! Try again after 24 hours.');
             } else {
 
-                barcode.count = record.count;
+                barData.count = record.count;
 
                 Barcodescan.updateOne(data,{$set : barData}).then(record=> {
                     res.status(201).json({'otp':otp,'pending':true,'completed':false});
@@ -65,24 +66,31 @@ router.post('/validate',bodyParser,(req,res)=> {
     
     let barcodeData = req.body.barcodeData;
     let userOTP = req.body.otp;
+    let data = {barcodeData};
 
-    Barcodescan.findOne({barcodeData: barcodeData}).then((record)=> {
+    Barcodescan.findOne({barcodeData: barcodeData}).then((rec)=> {
 
-        if(record == undefined || record == null) {
+        if(rec == undefined || rec == null) {
             res.status(500).send('Barcode Invalid! Please try again.');
         } else {
-            if(record.otp == userOTP) {
+            if(rec.otp == userOTP) {
 
-                record.completed = true;
-                record.pending = false;
-                record.count = 0;
+                rec.completed = true;
+                rec.pending = false;
+                rec.count = 0;
+                rec.isSuccess = true;
 
-                res.status(200).json({'msg':'Barcode scanning completed successfully!','pending':false,'completed':true});
+                Barcodescan.updateOne(data,{$set : rec}).then(record=> {
+                    res.status(200).json({'msg':'Barcode scanning completed successfully!','pending':false,'completed':true});
+                }).catch(err=> {
+                    res.status(500).send('Not able to save the barcode!');
+                });
             } else {
                 res.status(404).send('Item not eligible for Pickup!');
             }
         }
     }).catch(err=> {
+        console.log(err);
         res.status(500).json({'error':err});
     });
 });
