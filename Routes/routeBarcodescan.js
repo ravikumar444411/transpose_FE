@@ -22,7 +22,10 @@ router.post('/scan',bodyParser,(req,res)=> {
     let otp = generateOTP();
     let barcode = new Barcodescan({
         barcodeData,
-        otp
+        otp,
+        pending: true,
+        completed: true,
+        cancelled: false
     });
     let data = {barcodeData};
 
@@ -33,15 +36,25 @@ router.post('/scan',bodyParser,(req,res)=> {
                 if(err) {
                     res.status(500).send('Not able to save the barcode!');
                 } else {
-                    res.status(201).json({'otp':otp});
+                    res.status(201).json({'otp':otp,'pending':true,'completed':false});
                 }
             });
         } else {
-            Barcodescan.updateOne(data,{$set : {'otp':otp}}).then(record=> {
-                res.status(201).json({'otp':otp});
-            }).catch(err=> {
-                res.status(500).send('Not able to save the barcode!');
-            });
+
+            record.count++;
+
+            if(record.count > 3) {
+                res.status(500).send('OTP generation limit exceeded! Try again after 24 hours.');
+            } else {
+
+                barcode.count = record.count;
+
+                Barcodescan.updateOne(data,{$set : barcode}).then(record=> {
+                    res.status(201).json({'otp':otp,'pending':true,'completed':false});
+                }).catch(err=> {
+                    res.status(500).send('Not able to save the barcode!');
+                });
+            }
         }
     });
 

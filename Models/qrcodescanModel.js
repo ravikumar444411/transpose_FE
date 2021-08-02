@@ -7,15 +7,15 @@ let qrcodescanSchema = new mongoose.Schema({
         default: ""
     },
     pending: {
-        type: Number,
+        type: Boolean,
         default: 0
     },
     completed: {
-        type: Number,
+        type: Boolean,
         default: 0
     },
     cancelled: {
-        type: Number,
+        type: Boolean,
         default: 0
     },
     isSuccess : {
