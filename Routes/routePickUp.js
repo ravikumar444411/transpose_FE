@@ -2,6 +2,7 @@ const express = require('express');
 const router=express.Router();
 const pickupModel=require('../Models/pickupModel');
 const sellersModel=require('../Models/sellersModel');
+const shipmentModel=require('../Models/shipmentModel');
 const mongoose=require('mongoose');
 let dbConnect = require('../DB-Connect/connect-db');
 // const DB='mongodb+srv://new-user1:SptGo9T4Kg4W9PbL@cluster0.mp33i.mongodb.net/logistiexdb?retryWrites=true&w=majority';
@@ -34,8 +35,11 @@ router.post('/postPickup', urlencodedParser, async function (req, res) {
     
     // console.log(req.body);
     const data=await req.body;
+    const find=data.id;
+    
     const newUser=await new pickupModel(data);
-    newUser.sellers=await sellersModel.count({});
+    newUser.sellers=await sellersModel.countDocuments({relation:find});
+    newUser.shipments=await shipmentModel.countDocuments({relation:find});
     await newUser.save((err)=>{
         if(err){
             res.status(500).json({msg:'Sorry, internal Server errors',error:err});
