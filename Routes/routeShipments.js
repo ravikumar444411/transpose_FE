@@ -19,6 +19,20 @@ router.get('/',(req,res,next)=>{
 })
     
 router.get('/getShipments',async (req,res) => {
+    
+    
+    shipmentModel.find().exec((err,data)=>{
+        if(err){
+             console.log('error users not found');
+            res.send(err);
+        }else{
+            //  console.log(data);
+            //res.json(data);
+            res.send(data);
+        }
+    });
+});
+router.get('/getShipmentsWithId',async (req,res) => {
     //  console.log('get all users');
     const find=await req.query.id;
     
@@ -33,7 +47,6 @@ router.get('/getShipments',async (req,res) => {
         }
     });
 });
-
 router.post('/postShipments', urlencodedParser, async function (req, res) {
     
     // console.log(req.body);
