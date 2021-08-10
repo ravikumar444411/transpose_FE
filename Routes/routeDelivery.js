@@ -4,7 +4,8 @@ const deliveryModel=require('../Models/deliveryModel');
 const mongoose=require('mongoose');
 let dbConnect = require('../DB-Connect/connect-db');
 var bodyParser = require('body-parser');
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let insertRecords = require('../OperationsModules/insertDelivery');
 
 mongoose.Promise=global.Promise;
     
@@ -27,16 +28,16 @@ router.post('/postDelivery', urlencodedParser, async function (req, res) {
     // console.log(req.body);
     const data=await req.body;
     console.log(data);
-    const newUser=await new deliveryModel(data);
-    console.log(newUser);
-    await newUser.save((err)=>{
-        if(err){
-            res.status(500).json({msg:'Sorry, internal Server errors'});
-        }else{
-            res.json({msg:'your data has been saved'})
-        }
-    });
-
+    // const newUser=await new deliveryModel(data);
+    // console.log(newUser);
+    // await newUser.save((err)=>{
+    //     if(err){
+    //         res.status(500).json({msg:'Sorry, internal Server errors'});
+    //     }else{
+    //         res.json({msg:'your data has been saved'})
+    //     }
+    // });
+    insertRecords(data);
     
 });
 

@@ -8,7 +8,8 @@ const mongoose=require('mongoose');
 let dbConnect = require('../DB-Connect/connect-db');
 // const DB='mongodb+srv://new-user1:SptGo9T4Kg4W9PbL@cluster0.mp33i.mongodb.net/logistiexdb?retryWrites=true&w=majority';
 var bodyParser = require('body-parser');
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
+let insertRecords = require('../OperationsModules/insertMenu');
 
 mongoose.Promise=global.Promise;
 
@@ -47,19 +48,19 @@ router.post('/postMenu', urlencodedParser, async function (req, res) {
     
     console.log(req.body);
     const data=await req.body;
-    const newUser=await new menuModel(data);
+    // const newUser=await new menuModel(data);
    
-    await newUser.save((err)=>{
-        if(err){
-            res.status(500).json({msg:'Sorry, internal Server errors'});
-        }else{
-            res.json({msg:'your data has been saved'})
-        }
-    });
+    // await newUser.save((err)=>{
+    //     if(err){
+    //         res.status(500).json({msg:'Sorry, internal Server errors'});
+    //     }else{
+    //         res.json({msg:'your data has been saved'})
+    //     }
+    // });
 
-     res.json({msg:'your data has been saved'})
+    //  res.json({msg:'your data has been saved'})
 
-    
+    insertRecords(data);
 });
 
 

@@ -6,6 +6,7 @@ let router = express.Router();
 let dbConnect = require('../DB-Connect/connect-db');
 let Barcodescan = require('../Models/barcodescanModel');
 let generateOTP = require('../OperationsModules/generateOTP');
+let insertRecords = require('../OperationsModules/insertBarcode');
 
 router.get('/',(req,res)=> {
     res.status(200).send('Start scanning!');
@@ -27,19 +28,20 @@ router.post('/scan',bodyParser,(req,res)=> {
         completed: false,
         cancelled: false,
     };
-    let barcode = new Barcodescan(barData);
+    // let barcode = new Barcodescan(barData);
     let data = {barcodeData};
 
     Barcodescan.findOne(data).then((record)=> {
 
         if(record == null || record == undefined) {
-            barcode.save((err)=> {
-                if(err) {
-                    res.status(500).send('Not able to save the barcode!');
-                } else {
-                    res.status(201).json({'otp':otp,'pending':true,'completed':false});
-                }
-            });
+            // barcode.save((err)=> {
+            //     if(err) {
+            //         res.status(500).send('Not able to save the barcode!');
+            //     } else {
+            //         res.status(201).json({'otp':otp,'pending':true,'completed':false});
+            //     }
+            // });
+            insertRecords(barData);
         } else {
 
             record.count++; 

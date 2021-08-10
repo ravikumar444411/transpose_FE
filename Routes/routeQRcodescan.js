@@ -6,6 +6,7 @@ let router = express.Router();
 let dbConnect = require('../DB-Connect/connect-db');
 let Qrcodescan = require('../Models/qrcodescanModel');
 let generateOTP = require('../OperationsModules/generateOTP');
+let insertRecords = require('../OperationsModules/insertQrcode');
 
 router.get('/',(req,res)=> {
     res.status(200).send('Start scanning!');
@@ -27,19 +28,20 @@ router.post('/scan',bodyParser,(req,res)=> {
         completed: false,
         cancelled: false
     };
-    let qrcode = new Qrcodescan(qrData);
+    // let qrcode = new Qrcodescan(qrData);
     let data = {qrcodeData};
 
     Qrcodescan.findOne(data).then((record)=> {
 
         if(record == null || record == undefined) {
-            qrcode.save((err)=> {
-                if(err) {
-                    res.status(500).send('Not able to save the qrcode!');
-                } else {
-                    res.status(201).json({'otp':otp,'pending':true,'completed':false});
-                }
-            });
+            // qrcode.save((err)=> {
+            //     if(err) {
+            //         res.status(500).send('Not able to save the qrcode!');
+            //     } else {
+            //         res.status(201).json({'otp':otp,'pending':true,'completed':false});
+            //     }
+            // });
+            insertRecords(qrData);
         } else {
 
             record.count++; 
