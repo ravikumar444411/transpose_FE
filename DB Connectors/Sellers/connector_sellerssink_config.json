@@ -1,0 +1,12 @@
+{
+  "name": "sellerssink",
+  "config": {
+    "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "topics": "Test-Topics7",
+    "connection.uri": "mongodb+srv://new-user1:SptGo9T4Kg4W9PbL@cluster0.mp33i.mongodb.net/logistiexdb?retryWrites=true",
+    "database": "logistiexdb",
+    "collection": "Sellers"
+  }
+}
