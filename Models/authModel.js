@@ -1,26 +1,16 @@
 
 let mongoose = require('mongoose');
 
-//Schema
+// User schema
 let userSchema = new mongoose.Schema({
     incr : {
         type: Number,
-        // required: true,
+        required: true,
         default: 0
     },
-    // fname: {
-    //     type: String,
-    //     required: true,
-    //     default: ''
-    // },
-    // lname: {
-    //     type: String,
-    //     required: true,
-    //     default: ''
-    // },
     username: {
         type: String,
-        // required: true,
+        required: true,
         default: ''
     },
     email: {
@@ -34,9 +24,11 @@ let userSchema = new mongoose.Schema({
         default: ''
     }
 });
+
+// Stores the records in sorted way according to increasing incr and alphabetically increasing username
 userSchema.index({incr : 1, username : 1});
 
-//Model
+// User Model
 let User = mongoose.model('User',userSchema,'User');
 
 module.exports = User;

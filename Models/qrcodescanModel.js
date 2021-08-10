@@ -1,49 +1,39 @@
 let mongoose=require('mongoose');
 
+// Schema for qrcode details collection
 let qrcodescanSchema = new mongoose.Schema({
     
-    qrcodeData: {
-        type: String,
+    qrcodeData: { 
+        type: String, // qrcode data
         default: ""
     },
     pending: {
-        type: Boolean,
+        type: Boolean, // denotes whether qrcode scanning is pending
         default: 0
     },
     completed: {
-        type: Boolean,
+        type: Boolean, // denotes whether qrcode scanning is completed
         default: 0
     },
     cancelled: {
-        type: Boolean,
+        type: Boolean, // denotes whether qrcode scanning is cancelled
         default: 0
     },
     isSuccess : {
-        type: Boolean,
+        type: Boolean, // denotes whether verification using qrcode is successful
         default: false
     },
     otp : {
-        type: String,
+        type: String, // otp sent during qrcode scanning
         default: ""
     },
     count: {
-        type: Number,
+        type: Number, // denotes the number of times of otp generation
         default: 1
     }
     
 });
 
-// let productSchema = new mongoose.Schema({
-
-//     pid: {
-//         type: String,
-//         default: ""
-//     },
-//     barcodeStatus: {
-//         type: [barcodescanSchema],
-//         default: {}
-//     }
-// });
-
+// QRcode Scan Model
 module.exports = mongoose.model("Qrcodescan",qrcodescanSchema,"Qrcodescan");
 

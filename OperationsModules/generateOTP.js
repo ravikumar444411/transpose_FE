@@ -1,5 +1,5 @@
 
-
+// function generates an OTP of size '6' for verification
 function generateOTP() {
     let otp = Math.floor(Math.random()*899999 + 100000);
     let OTP = otp.toString();
