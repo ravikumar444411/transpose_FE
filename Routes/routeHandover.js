@@ -1,3 +1,4 @@
+//all the necessary requirments
 const express = require('express');
 const router=express.Router();
 const handoverModel=require('../Models/handoverModel');
@@ -10,28 +11,22 @@ let insertRecords = require('../OperationsModules/insertHandover');
 
 mongoose.Promise=global.Promise;
 
-
-router.get('/',(req,res,next)=>{
-    let arr=[];
-    arr.push({"/getMenu": ""});
-    arr.push( { "/postMenu" :"for adding options"});
-    res.send( arr);
-})
-    
+//GET request '/handover/getHandover'
+//gettnig handover details with a specific name  you can change the data with your condition
 router.get('/getHandover',(req,res) => {
-    //  console.log('get all users');
+    
+    // condition name: l
     handoverModel.find({"name":"l"}).exec((err,data)=>{
         if(err){
-             console.log('error users not found');
             res.send(err);
         }else{
-             console.log(data);
-            //res.json(data);
             res.send(data);
         }
     })
 });
 
+//POST request '/handover/postHandover'
+//posting new Handover data
 router.post('/postHandover', urlencodedParser, async function (req, res) {
     
     console.log(req.body);
@@ -48,6 +43,7 @@ router.post('/postHandover', urlencodedParser, async function (req, res) {
 
     //  res.json({msg:'your data has been saved'})
 
+    //function doing same thing as above commented code . Just using kafka to do it
     insertRecords(data);
 });
 

@@ -8,7 +8,9 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 let insertRecords = require('../OperationsModules/insertDelivery');
 
 mongoose.Promise=global.Promise;
-    
+
+//GET request on '/delivery/getDelivery'
+//getting all delivery details
 router.get('/getDelivery',(req,res,next) => {
     
     deliveryModel.find().exec((err,data)=>{
@@ -23,9 +25,9 @@ router.get('/getDelivery',(req,res,next) => {
     })
 });
 
+//POST request on '/delivery/postDelivery'
+//posting new delivery 
 router.post('/postDelivery', urlencodedParser, async function (req, res) {
-    
-    // console.log(req.body);
     const data=await req.body;
     console.log(data);
     // const newUser=await new deliveryModel(data);
@@ -37,6 +39,8 @@ router.post('/postDelivery', urlencodedParser, async function (req, res) {
     //         res.json({msg:'your data has been saved'})
     //     }
     // });
+
+    //this function does same as above commented code
     insertRecords(data);
     
 });

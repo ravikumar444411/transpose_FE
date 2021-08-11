@@ -11,29 +11,24 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 mongoose.Promise=global.Promise;
 
-router.get('/',(req,res,next)=>{
-    let arr=[];
-    arr.push({"/getShipments": ""});
-    arr.push( { "/postShipments" :"for adding options"});
-    res.send( arr);
-})
-    
+//GET request on '/shipments/getShipments'
+// getting all the shipments 
 router.get('/getShipments',async (req,res) => {
     
     
     shipmentModel.find().exec((err,data)=>{
         if(err){
-             console.log('error users not found');
             res.send(err);
         }else{
-            //  console.log(data);
-            //res.json(data);
             res.send(data);
         }
     });
 });
+
+//GET request on '/shipments/getShipmentsWithId'
+//getting particular shipments related to a pickup time or charge sheet 
 router.get('/getShipmentsWithId',async (req,res) => {
-    //  console.log('get all users');
+    //getting id from query parameter send to us
     const find=await req.query.id;
     
     shipmentModel.find({relation:find}).exec((err,data)=>{
@@ -41,16 +36,17 @@ router.get('/getShipmentsWithId',async (req,res) => {
              console.log('error users not found');
             res.send(err);
         }else{
-            //  console.log(data);
-            //res.json(data);
+           
             res.send(data);
         }
     });
 });
+
+//POST request on '/shipments/postShipments'
+// posting new shipments to our Shipments Database
 router.post('/postShipments', urlencodedParser, async function (req, res) {
     
-    // console.log(req.body);
-    
+    //getting shipment info and saving it
     const data=await req.body;
     const newUser=await new shipmentModel(data);
     await newUser.save((err)=>{
@@ -59,51 +55,46 @@ router.post('/postShipments', urlencodedParser, async function (req, res) {
         }
     });
    
+    //updating our count in pickupModel
     await pickupModel.find({id:data.relation}).exec(async (err,datas)=>{
         if(err){
              console.log('error pickup not found');
-            //res.send(err);
+         
         }else{
-            // console.log(data.relation);
+            //getting count of our overall shipments
             const updatedShipments=await shipmentModel.countDocuments({relation:data.relation});
             const filter= {id:data.relation};
             const update= {shipments:updatedShipments};
+            
+            //updating our pickup sheets when a new shipment is added
             await pickupModel.findOneAndUpdate(filter,update);
             // value=datas.shipments;
 
-            res.status(200).json({msg:'your data has been saved'});
+            res.status(200).json({msg:'your data has been updated'});
             
         }
     });
 
-    
-
-    
-
-    //  res.json({msg:'your data has been saved'})
-
-    
 });
+
+//PUT request on '/shipments/shipmentDelivered'
+// change request when one of the shipments is delivered. Just changing delivery status to true
 router.put('/shipmentDelivered', urlencodedParser, async function (req, res) {
     
-    // console.log(req.body);
+   
     const find=await req.query.id;
-    // const id = Object.id(find);
+   
     const filter = { _id: find };
     const update={delivered:true}    
+
+    //updating our particular shipment of _id: find  to true , stating that it has been delivered
     shipmentModel.findOneAndUpdate(filter,update).exec((err,data)=>{
         if(err){
-             console.log('error users not found');
             res.send(err);
-        }else{
-            //  console.log(data);
-            //res.json(data);
+        }else{        
             res.send('Item Delivered');
         }
     })
-    //  res.json({msg:'your data has been saved'})
-
-    
 });
 
 

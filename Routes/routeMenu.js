@@ -13,37 +13,22 @@ let insertRecords = require('../OperationsModules/insertMenu');
 
 mongoose.Promise=global.Promise;
 
-
-router.get('/',(req,res,next)=>{
-    let arr=[];
-    arr.push({"/getMenu": ""});
-    arr.push( { "/postMenu" :"for adding options"});
-    res.send( arr);
-})
-    
+//GET request '/menu/getMenu'
+//api for getting counts in the menu tab. This includes delivery , pickups and handover Counts
 router.get('/getMenu',async (req,res) => {
-    //console.log('');
      const data= {
-        deliveries:await deliveryModel.count({}),
-        pickUp:await pickUpModel.count({}),
-        handOver:await handOverModel.count({}),
+        deliveries:await deliveryModel.countDocuments({}),
+        pickUp:await pickUpModel.countDocuments({}),
+        handOver:await handOverModel.countDocuments({}),
         price:1222,
         id:Math.random(),
     }
     const newUser=await new menuModel(data);
     res.send(newUser);
-    // menuModel.find().exec((err,data)=>{
-    //     if(err){
-    //          console.log('error users not found');
-    //         res.send(err);
-    //     }else{
-    //         //  console.log(data);
-    //         //res.json(data);
-    //         res.send(data);
-    //     }
-    // })
 });
 
+//POST request '/menu/postMenu'
+// post request to insert in the menu 
 router.post('/postMenu', urlencodedParser, async function (req, res) {
     
     console.log(req.body);
@@ -60,6 +45,7 @@ router.post('/postMenu', urlencodedParser, async function (req, res) {
 
     //  res.json({msg:'your data has been saved'})
 
+    //the above commented code works but  this function uses kafka , so that requests are seamless 
     insertRecords(data);
 });
 

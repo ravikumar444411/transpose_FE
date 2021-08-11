@@ -12,13 +12,8 @@ let insertRecords = require('../OperationsModules/insertPickup');
 
 mongoose.Promise=global.Promise;
 
-router.get('/',(req,res,next)=>{
-    let arr=[];
-    arr.push({"/getMenu": ""});
-    arr.push( { "/postMenu" :"for adding options"});
-    res.send( arr);
-})
-
+//POST request '/pickup/getPickup'
+//This gives details of the pickup sheets. 
 router.get('/getPickup',(req,res) => {
     pickupModel.find({}).exec((err,data)=>{
         if(err){
@@ -32,22 +27,22 @@ router.get('/getPickup',(req,res) => {
     })
 });
 
+//POST request '/pickup/postPickup'
+//to introduce new pickup ,this api is here.
 router.post('/postPickup', urlencodedParser, async function (req, res) {
     
     // console.log(req.body);
     const data=await req.body;
     const find=data.id;
     // const newUser=await new pickupModel(data);
-    data.sellers=await sellersModel.count({});
+    // data.sellers=await sellersModel.countDocuments({});
+
+
+    //here we try to find the no, of sellers and shipments for a particular pickup 
     data.sellers=await sellersModel.countDocuments({relation:find});
     data.shipments=await shipmentModel.countDocuments({relation:find});
-    // await newUser.save((err)=>{
-    //     if(err){
-    //         res.status(500).json({msg:'Sorry, internal Server errors',error:err});
-    //     }else{
-    //         res.status(200).json({msg:'your data has been saved'})
-    //     }
-    // });
+
+    //this funcion uses kafka /// code commented below also works and both have same effect 
     insertRecords(data);
 
     

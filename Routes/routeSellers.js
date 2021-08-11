@@ -10,29 +10,25 @@ let insertRecords = require('../OperationsModules/insertSellers');
 
 mongoose.Promise=global.Promise;
 
-router.get('/',(req,res,next)=>{
-    let arr=[];
-    arr.push({"/getMenu": ""});
-    arr.push( { "/postMenu" :"for adding options"});
-    res.send( arr);
-})
-    
+//GET request on '/sellers/getSellers'
+//here you can get seller details related to a particular pickup.
 router.get('/getSellers',async (req,res) => {
-    //  console.log('get all users');
-    const find=await req.query.id;
     
+    const find=await req.query.id;
+
+    // find is the connection id to the pickup sheets
     sellersModel.find({relation:find}).exec((err,data)=>{
         if(err){
              console.log('error users not found');
             res.send(err);
         }else{
-            //  console.log(data);
-            //res.json(data);
             res.send(data);
         }
     })
 });
 
+//POST request on '/sellers/postSellers'
+// posting details of new sellers , see model for details
 router.post('/postSellers', urlencodedParser, async function (req, res) {
     
     // console.log(req.body);
@@ -48,6 +44,8 @@ router.post('/postSellers', urlencodedParser, async function (req, res) {
     // });
 
     //  res.json({msg:'your data has been saved'})
+
+    //this function puts the new data in seller database using kafka  the code commented above has the same effect
     insertRecords(data);
     
 });
