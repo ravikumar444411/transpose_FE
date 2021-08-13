@@ -6,8 +6,8 @@ let dbConnect = require('../DB-Connect/connect-db');
 // const DB='mongodb+srv://new-user1:SptGo9T4Kg4W9PbL@cluster0.mp33i.mongodb.net/logistiexdb?retryWrites=true&w=majority';
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-let insertRecords = require('../OperationsModules/insertSellers');
-
+// let insertRecords = require('../OperationsModules/insertSellers');
+let postSellers = require('../Kafka/producer');
 mongoose.Promise=global.Promise;
 
 //GET request on '/sellers/getSellers'
@@ -33,8 +33,20 @@ router.post('/postSellers', urlencodedParser, async function (req, res) {
     
     // console.log(req.body);
     const data=await req.body;
-    // const newUser=await new sellersModel(data);
+    const newUser=await new sellersModel(data);
     
+    //this variable checks if our data is correct and according to our schema. (eg. if all the required value are there)
+    const err=newUser.validateSync();
+    if(err){
+        res.status(500).json({msg:'Sorry, internal Server errors',error:err});
+    }else{
+        //this function puts the new data in seller database using kafka here we give topic name connected to sellers
+        postSellers(newUser, "Test-Topics7");
+        res.status(200).json({msg:'your data has been saved'})
+    }
+
+
+    // Below code is for emergency  if suddenly kafka stopped working Just uncomment and use 
     // await newUser.save((err)=>{
     //     if(err){
     //         res.status(500).json({msg:'Sorry, internal Server errors',error:err});
@@ -43,10 +55,9 @@ router.post('/postSellers', urlencodedParser, async function (req, res) {
     //     }
     // });
 
-    //  res.json({msg:'your data has been saved'})
+    //  
 
-    //this function puts the new data in seller database using kafka  the code commented above has the same effect
-    insertRecords(data);
+    
     
 });
 

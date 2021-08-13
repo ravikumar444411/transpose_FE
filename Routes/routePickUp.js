@@ -8,7 +8,7 @@ let dbConnect = require('../DB-Connect/connect-db');
 // const DB='mongodb+srv://new-user1:SptGo9T4Kg4W9PbL@cluster0.mp33i.mongodb.net/logistiexdb?retryWrites=true&w=majority';
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-let insertRecords = require('../OperationsModules/insertPickup');
+let postMenu=require('../Kafka/producer');
 
 mongoose.Promise=global.Promise;
 
@@ -31,25 +31,27 @@ router.get('/getPickup',(req,res) => {
 //to introduce new pickup ,this api is here.
 router.post('/postPickup', urlencodedParser, async function (req, res) {
     
-    // console.log(req.body);
     const data=await req.body;
     const find=data.id;
-    // const newUser=await new pickupModel(data);
-    // data.sellers=await sellersModel.countDocuments({});
-
-
-    //here we try to find the no, of sellers and shipments for a particular pickup 
+    
+    //here we try to find the number of sellers and shipments for a particular pickup 
     data.sellers=await sellersModel.countDocuments({relation:find});
     data.shipments=await shipmentModel.countDocuments({relation:find});
-
-    //this funcion uses kafka /// code commented below also works and both have same effect 
-    insertRecords(data);
-
+    const newUser=await new pickupModel(data);
+   
+    
+    //this variable checks if our data is correct and according to our schema. (eg. if all the required value are there)
+    const err=await newUser.validateSync();
+    if(err){
+        res.status(500).json({msg:'Sorry, internal Server errors',error:err});
+    }else{
+        //this function puts the new data in your database collection using kafka here we give topic name connected to sellers
+        postMenu(newUser, "Test-Topics5");
+        res.status(200).json({msg:'your data has been saved'});
+    }
     
     
-    // const newUser=await new pickupModel(data);
-    // newUser.sellers=await sellersModel.countDocuments({relation:find});
-    // newUser.shipments=await shipmentModel.countDocuments({relation:find});
+    // Below code is for emergency  if suddenly kafka stopped working Just uncomment and use 
     // await newUser.save((err)=>{
     //     if(err){
     //         res.status(500).json({msg:'Sorry, internal Server errors',error:err});
