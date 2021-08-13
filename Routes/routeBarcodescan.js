@@ -6,7 +6,7 @@ let router = express.Router();
 let dbConnect = require('../DB-Connect/connect-db');
 let Barcodescan = require('../Models/barcodescanModel');
 let generateOTP = require('../OperationsModules/generateOTP');
-let insertRecords = require('../OperationsModules/insertBarcode');
+let postBarcode = require('../Kafka/producer');
 
 // GET request on '/barcode' route
 router.get('/',(req,res)=> {
@@ -42,7 +42,16 @@ router.post('/scan',bodyParser,(req,res)=> {
         if(record == null || record == undefined) {
             
             // insert record into the database if not already present
-            insertRecords(barData);
+            let barcode = new Barcodescan(barData);
+            let err = barcode.validateSync();
+
+            if(err == undefined) {
+                postBarcode(barData,"Test-Topics1");
+                res.status(201).json({'otp':otp,'pending':true,'completed':false});
+            } else {
+                res.status(500).json({'msg':'All required fields not covered'});
+            }
+            
         } else {
 
             // increment the count of otp generation for above barcode no.

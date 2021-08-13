@@ -5,12 +5,12 @@ let mongoose = require('mongoose');
 let userSchema = new mongoose.Schema({
     incr : {
         type: Number,
-        required: true,
+        // required: true,
         default: 0
     },
     username: {
         type: String,
-        required: true,
+        // required: true,
         default: ''
     },
     email: {

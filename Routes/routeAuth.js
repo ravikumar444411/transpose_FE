@@ -5,7 +5,7 @@ let bodyParser = require('body-parser').json();
 let router = express.Router();
 let dbConnect = require('../DB-Connect/connect-db');
 let User = require('../Models/authModel');
-let insertRecords = require('../OperationsModules/insertAuth');
+let postAuth = require('../Kafka/producer');
 let generateAccessToken = require('../OperationsModules/generateAccessToken');
 
 // GET request on '/auth' route
@@ -46,10 +46,19 @@ router.post('/signup',bodyParser,async(req,res)=> {
         email,
         password: hash
     };
+
+    let user = new User(details);
+    let err = user.validateSync();
+
+    if(err == undefined) {
+        // insertion of records in User database
+        postAuth(details,"Test-Topics");
+        console.log('signup successful!');
+        res.status(201).send('signup successful!');
+    } else {
+        res.status(500).json({'msg':'All required fields not covered'});
+    }
     
-    // insertion of records in User database
-    insertRecords(details);
-    console.log('signup successful!');
 }); 
 
 // GET request on '/auth/login' route

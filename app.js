@@ -7,14 +7,14 @@ let app = express();
 let nodemon = require('nodemon');
 let session = require('express-session');
 let cors=require("cors");
-// let routeLogin = require('./Routes/routeAuth');
+let routeLogin = require('./Routes/routeAuth');
 let routeDelivery = require('./Routes/routeDelivery');
 let routeHandover = require('./Routes/routeHandover');
 let routeMenu = require('./Routes/routeMenu');
 let routePickup = require('./Routes/routePickUp');
 let routeSellers = require('./Routes/routeSellers');
-// let routeBarcode = require('./Routes/routeBarcodescan');
-// let routeQRcode = require('./Routes/routeQRcodescan');
+let routeBarcode = require('./Routes/routeBarcodescan');
+let routeQRcode = require('./Routes/routeQRcodescan');
 let routeShipments=require('./Routes/routeShipments');
 let {store,secret,conn} = require('./DB-Connect/connect-db');
 
@@ -39,13 +39,13 @@ app.get('/',(req,res)=> {
     res.status(200).send('Welcome to API Operations!');
 });
 
-// app.use('/auth',routeLogin);
+app.use('/auth',routeLogin);
 app.use('/menu',routeMenu);
 app.use('/delivery',routeDelivery);
 app.use('/handover',routeHandover);
 app.use('/pickup',routePickup);
-// app.use('/barcode',routeBarcode);
-// app.use('/qrcode',routeQRcode);
+app.use('/barcode',routeBarcode);
+app.use('/qrcode',routeQRcode);
 app.use('/sellers',routeSellers);
 app.use('/shipments',routeShipments);
 // port = Math.floor(Math.random()*8976+1024);
