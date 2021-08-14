@@ -14,6 +14,7 @@ mongoose.Promise=global.Promise;
 
 //POST request '/pickup/getPickup'
 //This gives details of the pickup sheets. 
+// Data Given back has fields _id(given by mongodb) id(required) title(required) sellers , shipments price date and location
 router.get('/getPickup',(req,res) => {
     pickupModel.find({}).exec((err,data)=>{
         if(err){
@@ -29,6 +30,8 @@ router.get('/getPickup',(req,res) => {
 
 //POST request '/pickup/postPickup'
 //to introduce new pickup ,this api is here.
+// Data posted has fields _id(given by mongodb) id(required) title(required) sellers , shipments price date and location
+
 router.post('/postPickup', urlencodedParser, async function (req, res) {
     
     const data=await req.body;

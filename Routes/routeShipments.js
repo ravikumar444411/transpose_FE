@@ -44,6 +44,7 @@ router.get('/getShipmentsWithId',async (req,res) => {
 
 //POST request on '/shipments/postShipments'
 // posting new shipments to our Shipments Database
+// Data you get has fields _id(given by mongodb) id code  relation , seller address phone location  and also delivered with defualt value false
 router.post('/postShipments', urlencodedParser, async function (req, res) {
     
     //getting shipment info and saving it
@@ -79,6 +80,7 @@ router.post('/postShipments', urlencodedParser, async function (req, res) {
 
 //PUT request on '/shipments/shipmentDelivered'
 // change request when one of the shipments is delivered. Just changing delivery status to true
+// Data posted has fields _id(given by mongodb) id code  relation , seller address phone location  all required  and also delivered with defualt value false
 router.put('/shipmentDelivered', urlencodedParser, async function (req, res) {
     
    

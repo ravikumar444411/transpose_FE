@@ -12,6 +12,7 @@ mongoose.Promise=global.Promise;
 
 //GET request on '/sellers/getSellers'
 //here you can get seller details related to a particular pickup.
+// Data Given back has fields _id(given by mongodb) id code  relation , seller address
 router.get('/getSellers',async (req,res) => {
     
     const find=await req.query.id;
@@ -29,6 +30,7 @@ router.get('/getSellers',async (req,res) => {
 
 //POST request on '/sellers/postSellers'
 // posting details of new sellers , see model for details
+// Data posted has fields _id(given by mongodb) id code  relation , seller address all required
 router.post('/postSellers', urlencodedParser, async function (req, res) {
     
     // console.log(req.body);

@@ -11,6 +11,7 @@ mongoose.Promise=global.Promise;
 
 //GET request on '/delivery/getDelivery'
 //getting all delivery details
+// Data Given back has fields _id given by mongodb id(required) title(required) sellers date and location
 router.get('/getDelivery',(req,res,next) => {
     
     deliveryModel.find().exec((err,data)=>{
@@ -27,6 +28,7 @@ router.get('/getDelivery',(req,res,next) => {
 
 //POST request on '/delivery/postDelivery'
 //posting new delivery 
+// Data taken  has fields  id(required) title(required) sellers date and location
 router.post('/postDelivery', urlencodedParser, async function (req, res) {
     
     const data=await req.body;
@@ -46,7 +48,7 @@ router.post('/postDelivery', urlencodedParser, async function (req, res) {
     if(err){
         res.status(500).json({msg:'Sorry, internal Server errors',error:err});
     }else{
-        //this function puts the new data in seller database using kafka here we give topic name connected to sellers
+        //this function puts the new data in your database collection using kafka here we give topic name connected to sellers
         postDelivery(newUser, "Test-Topics2");
         res.status(200).json({msg:'your data has been saved'})
     }

@@ -2,6 +2,7 @@ let mongoose=require('mongoose');
 // let db = require('../database');
 // create an schema
 
+//this model may be redundant  see routeMenu for more info
 let menuSchema = new mongoose.Schema({
         id:{type: String,required:true},
         deliveries:{
