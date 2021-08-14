@@ -7,6 +7,7 @@ let Barcodescan = require('../Models/barcodescanModel');
 let Orderstatus = require('../Models/orderBarcodeStatus');
 let generateOTP = require('../OperationsModules/generateOTP');
 let postBarcode = require('../Kafka/producer');
+const { compareSync } = require('bcrypt');
 
 // GET request on '/barcode' route
 router.get('/',(req,res)=> {
@@ -33,10 +34,14 @@ router.post('/scan',bodyParser,async(req,res)=> {
     };
     
     let data = {barcodeData};
-    let orderstatusrecord = await Orderstatus.find({}).sort({_id:1}).limit(1);
+    let orderstatusrecord = await Orderstatus.find({}).catch(err=> {
+        console.log(err);
+    });
+
+    console.log(orderstatusrecord);
 
     // checking whether a record with same barcode number exists or not
-    Barcodescan.findOne(data).then((record)=> {
+    Barcodescan.findOne(data).then(async(record)=> {
 
         if(record == null || record == undefined) {
             
@@ -48,6 +53,13 @@ router.post('/scan',bodyParser,async(req,res)=> {
                 // insert record into the database if not already present
                 postBarcode(barData,"Test-Topics1");
                 orderstatusrecord[0].pending++;
+                // console.log(orderstatusrecord[0].pending);
+
+                Orderstatus.update({},{$set : orderstatusrecord[0]}).then((status)=> {
+                    console.log(status);
+                }).catch((err)=> {
+                    console.log(err);
+                });
 
                 res.status(201).json({'otp':otp,pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
             } else {
@@ -65,6 +77,19 @@ router.post('/scan',bodyParser,async(req,res)=> {
                 // send status 500 for exceeding the otp generation limit
                 orderstatusrecord[0].cancelled++;
                 orderstatusrecord[0].pending--;
+
+                Orderstatus.update({},{$set : orderstatusrecord[0]}).then((status)=> {
+                    console.log(status);
+                }).catch((err)=> {
+                    console.log(err);
+                });
+
+                Barcodescan.deleteOne({barcodeData : barcodeData}).then(response=> {
+                    console.log(response);
+                }).catch(err=> {
+                    console.log(err);
+                });
+
                 res.status(500).json({'msg':'OTP generation limit exceeded! Try again after 24 hours.',pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
             } else {
 
@@ -72,7 +97,7 @@ router.post('/scan',bodyParser,async(req,res)=> {
 
                 // update the already existing record with otp and barcode scan status
                 Barcodescan.updateOne(data,{$set : barData}).then(record=> {
-                    res.status(201).json({'otp':otp,pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
+                    res.status(201).json({otp:otp,pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
                 }).catch(err=> {
                     res.status(500).send('Not able to save the barcode!');
                 });
@@ -103,6 +128,13 @@ router.post('/validate',bodyParser,async(req,res)=> {
 
                 orderstatusrecord[0].pending--;
                 orderstatusrecord[0].completed++;
+
+                Orderstatus.update({},{$set : orderstatusrecord[0]}).then((status)=> {
+                    console.log(status);
+                }).catch((err)=> {
+                    console.log(err);
+                });
+
                 // updating the barcode scan status on otp validation
                 Barcodescan.updateOne(data,{$set : rec}).then(record=> {
                     res.status(200).json({'msg':'Barcode scanning completed successfully!',pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
@@ -114,6 +146,7 @@ router.post('/validate',bodyParser,async(req,res)=> {
                 res.status(404).send('Item not eligible for Pickup!');
             }
         }
+
     }).catch(err=> {
         console.log(err);
         res.status(500).json({'error':err});
