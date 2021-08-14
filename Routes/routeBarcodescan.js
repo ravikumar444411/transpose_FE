@@ -53,8 +53,8 @@ router.post('/scan',bodyParser,async(req,res)=> {
                 // insert record into the database if not already present
                 postBarcode(barData,"Test-Topics1");
                 orderstatusrecord[0].pending++;
-                // console.log(orderstatusrecord[0].pending);
-
+                
+                // updating status of orders
                 Orderstatus.update({},{$set : orderstatusrecord[0]}).then((status)=> {
                     console.log(status);
                 }).catch((err)=> {
@@ -78,6 +78,7 @@ router.post('/scan',bodyParser,async(req,res)=> {
                 orderstatusrecord[0].cancelled++;
                 orderstatusrecord[0].pending--;
 
+                // updating status of orders
                 Orderstatus.update({},{$set : orderstatusrecord[0]}).then((status)=> {
                     console.log(status);
                 }).catch((err)=> {
@@ -129,6 +130,7 @@ router.post('/validate',bodyParser,async(req,res)=> {
                 orderstatusrecord[0].pending--;
                 orderstatusrecord[0].completed++;
 
+                // updating status of orders
                 Orderstatus.update({},{$set : orderstatusrecord[0]}).then((status)=> {
                     console.log(status);
                 }).catch((err)=> {
