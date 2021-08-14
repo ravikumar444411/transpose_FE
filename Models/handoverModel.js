@@ -5,8 +5,8 @@ let mongoose=require('mongoose');
 let handoverSchema=new mongoose.Schema({
     id:{type:String,required:true},
     title: { type: String, required: true },
-    sellers:{type:Number},
-    shipments:{type:Number},
+    sellers:{type:Number},       // number of shipment
+    shipments:{type:Number},    //number of shipment
     date:{
         type:Date,
         // required:true,

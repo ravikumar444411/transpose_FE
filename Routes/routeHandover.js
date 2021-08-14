@@ -13,6 +13,7 @@ mongoose.Promise=global.Promise;
 
 //GET request '/handover/getHandover'
 //gettnig handover details with a specific name  you can change the data with your condition
+// Data Given back has fields _id(given by mongodb) id(required) title(required) sellers date and location
 router.get('/getHandover',(req,res) => {
     
     // condition name: l
@@ -27,6 +28,7 @@ router.get('/getHandover',(req,res) => {
 
 //POST request '/handover/postHandover'
 //posting new Handover data
+// Data taken  has fields id(required) title(required) sellers date and location
 router.post('/postHandover', urlencodedParser, async function (req, res) {
     
    

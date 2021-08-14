@@ -15,7 +15,10 @@ mongoose.Promise=global.Promise;
 
 //GET request '/menu/getMenu'
 //api for getting counts in the menu tab. This includes delivery , pickups and handover Counts
+//getting latest information about delivery pickup and handover
 router.get('/getMenu',async (req,res) => {
+
+    //countDocuments count all documents from that collection for a specific condition here there is no condition
      const data= {
         deliveries:await deliveryModel.countDocuments({}),
         pickUp:await pickUpModel.countDocuments({}),
@@ -29,6 +32,7 @@ router.get('/getMenu',async (req,res) => {
 
 //POST request '/menu/postMenu'
 // post request to insert in the menu 
+//actually puts latest information about delivery pickup and handover but is useless 
 router.post('/postMenu', urlencodedParser, async function (req, res) {
     
     const data=await req.body;

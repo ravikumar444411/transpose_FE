@@ -1,8 +1,10 @@
 let mongoose=require('mongoose');
+
+//this is incomplete and wrong
 let menuSchema = new mongoose.Schema({
     id:{type: String,required:true},
     code:{
-        type:Number,
+        type:Number,    //specific code connected to a seller
         required:true
     },
     relation:{

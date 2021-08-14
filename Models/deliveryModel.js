@@ -5,8 +5,8 @@ let mongoose=require('mongoose');
 let deliverySchema=new mongoose.Schema({
     id:{type:String,required:true},
     title: { type: String, required: true },
-    sellers:{type:Number},
-    shipments:{type:Number},
+    sellers:{type:Number},   // number of sellers
+    shipments:{type:Number}, // number of shipments
     date:{
         type:Date,
         // required:true,

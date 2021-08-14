@@ -38,6 +38,8 @@ app.use(express.urlencoded({extended:false}));
 app.get('/',(req,res)=> {
     res.status(200).send('Welcome to API Operations!');
 });
+//Note each model schema has a timestamp on them indicating
+//when they were created and when they were edited
 
 app.use('/auth',routeLogin);
 app.use('/menu',routeMenu);
