@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { View, StyleSheet, Dimensions, StatusBar,TouchableOpacity,Animated, Pressable} from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
@@ -12,9 +11,10 @@ const FirstRoute = () => (
 const SecondRoute = () => (
   <Box flex={1} bg="violet.400"  />
 );
+
 const ThirdRoute = () => (
-    <Box flex={1} bg="red.400"  />
-  );
+  <Box flex={1} bg="red.400"  />
+);
 
 const initialLayout = { width: Dimensions.get('window').width };
 
@@ -27,12 +27,13 @@ const renderScene = SceneMap({
 export default function TabViewExample() {
 
 
+
+
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'First' },
     { key: 'second', title: 'Second' },
     { key: 'third', title: 'Third' },
-    
   ]);
 
   const renderTabBar = (props) => {
@@ -52,7 +53,7 @@ export default function TabViewExample() {
              flex = {1}
               alignItems= 'center'
               p= {2}
-            //   cursor="pointer"
+              
              >
             <Pressable
 
@@ -70,6 +71,7 @@ export default function TabViewExample() {
   };
 
   return (
+    <NativeBaseProvider>
     <TabView
       navigationState={{ index, routes }}
       renderScene={renderScene}
@@ -78,5 +80,6 @@ export default function TabViewExample() {
       initialLayout={initialLayout}
       style={{marginTop: StatusBar.currentHeight}}
     />
+    </NativeBaseProvider>
   );
 }

@@ -1,8 +1,8 @@
 import { Container,ArrowForwardIcon } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
-import{StyleSheet,Text,TouchableOpacity,View, ScrollView, TextInput,getPick,Image} from 'react-native';
-import {getPickup, postScan} from './Config'
+import{StyleSheet,Text,TouchableOpacity,View, ScrollView, TextInput,getPick,Image, Alert} from 'react-native';
+import {getPickup, getValidate, postScan} from './Config'
 import { width } from 'styled-system';
 import { Option } from './ScanBorcode/Option';
 import { OtpPopup } from './ScanBorcode/OtpPopup';
@@ -15,7 +15,9 @@ import { RNCamera } from 'react-native-camera';
 
 const Scanbarcode = () => {
     const [barcodeValue,setBarcodeValue] = useState("");
+    const [otp,setOtp] = useState('');
     const [showModal, setShowModal] = useState(false)
+
     
     // useEffect(()=>{
     //     const reqdata = {
@@ -28,14 +30,28 @@ const Scanbarcode = () => {
     //         setData("Something went wring");
     //     }); 
     // })
+const reSendHandle=()=>{
+console.log(otp)
 
+    axios.post(getValidate,{barcodeData:barcodeValue,otp:otp})
+    .then((response) => {
+    console.log(response)
+    if(response.status==200){
+      setShowModal(false);
+      alert(response.data.msg)
+    }
+    }, (error) => {
+      console.log(error);
+    });
+}
    const onSuccess = e => {
         console.log(e.data)
       
         
     axios.post(postScan,{barcodeData:e.data})
     .then((response) => {
-     console.log(response)
+     console.log(response.data.otp)
+
      if(response.status==201){
          setBarcodeValue(e.data)
          setShowModal(true)
@@ -55,10 +71,10 @@ const Scanbarcode = () => {
         <TouchableOpacity style={styles.scanbtn} ><Text style={{color:'white'}}>Scan is</Text></TouchableOpacity>
         <TouchableOpacity style={styles.scanbtn2} ><Text style={{color:'#549ee3'}}>Manually</Text></TouchableOpacity>
      </View>
-     <View style={{flex: 1,backgroundColor:'green',width:280,height:500,marginTop:20,overflow:'hidden'}}>
+     <View style={{flex: 1,width:280,height:500,marginTop:20,overflow:'hidden'}}>
      <QRCodeScanner
         onRead={onSuccess}
-        containerStyle={{flex: 1,backgroundColor:'green',width:280,height:500,marginTop:20}}
+        containerStyle={{flex: 1,width:280,height:500,marginTop:20}}
         // flashMode={false}
         // flashMode={RNCamera.Constants.FlashMode.torch}
 
@@ -114,12 +130,13 @@ const Scanbarcode = () => {
                 _dark={{
                     placeholderTextColor: "blueGray.50",
                 }}
+                onChangeText={(text)=>setOtp(text)}
                 />
           </Modal.Body>
           <Modal.Footer>
             <Button.Group variant="ghost" space={2}>
               <Button  colorScheme="danger">Resend Otp</Button>
-              <Button  colorScheme="success" onPress={() =>   setShowModal(false) } >  Save </Button>
+              <Button  colorScheme="success" onPress={reSendHandle } >  Save </Button>
             </Button.Group>
           </Modal.Footer>
         </Modal.Content>

@@ -2,10 +2,11 @@ import { Container,ArrowForwardIcon } from 'native-base';
 import React, { useEffect, useState, Component } from 'react';
 import axios from 'axios'
 import{StyleSheet,Text,TouchableOpacity,View, ScrollView,TextInput,getPick} from 'react-native';
-import {getShipments} from './Config';
-import Pie from 'react-native-pie';
-import SearchBar from './SearchBar';
-import TabViewExample from './TabView';
+import {getShipments} from '../Config';
+// import TabMenu from '../TabMenu';
+// import Pie from 'react-native-pie';
+// import SearchBar from './SearchBar';
+// import TabMenuExample from './TabMenu';
 
 
 
@@ -32,86 +33,32 @@ const PickupDashboard = () => {
     <Container style={styles.containter}>
       
     <Text style={{marginTop:-20},styles.fontvalue}>PENDING()</Text>
-    <SearchBar />
+    {/* <SearchBar /> */}
 
 
 
         <ScrollView style={styles.homepage} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-        
-        {/* Pie start */}
-
-        
-
-        <View style={styles.container69}>
-          <View
-            style={{
-              paddingVertical: 15,
-              flexDirection: 'row',
-              width: 200,
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            }}
-          >
-            <Pie
-              radius={90}
-              innerRadius={50}
-              sections={[
-                {
-                  percentage: 40,
-                  color: '#C70039',
-                },
-                {
-                  percentage: 25,
-                  color: 'blue',
-                },
-                {
-                  percentage: 25,
-                  color: 'yellow',
-                },
-                
-                {
-                  percentage: 10,
-                  color: '#44CD40',
-                },
-                
-              ]}
-              strokeCap={'butt'}
-              strokeDasharray={'circleCircumference'}
-              strokeoffset={'circleCircumference/2'}
-              
-            />
-          </View>
-        </View>
-
-
-        {/* Pie ends */}
-<TabViewExample />
-            {data.map(single=>(
-                <View style={styles.mainbox}>
-            <TouchableOpacity>
-            <View style={styles.innerup}>
-                <Text style={styles.fontvalue}>{single.code}</Text>
-                <ArrowForwardIcon style={{color:"#6DB1E1",marginLeft:180,marginTop:-5}} />
-            </View>
-            <View style={styles.innerdown}>
-                <Text style={styles.fontvalue}>Seller</Text>
-                <Text style={styles.fontvalue}>{single.seller}</Text>
-            </View>
-            <View style={styles.innerdown}>
-                <Text style={styles.fontvalue}>Address</Text>
-                <Text style={styles.fontvalue}>{single.address}</Text>
-            </View>
-            
-            </TouchableOpacity>
-            <View style={styles.outerdown}>
-        <View style={styles.outer1}><Text style={{color:'#6DB1E1',fontWeight:'700'}}>CALL CUSTOMER</Text></View>
-        <View style={styles.outer1}><Text style={{color:'#6DB1E1',fontWeight:'700'}}>GET DIRECTIONS</Text></View>
-        </View>
-
-        
-        </View>
-
-
+         {data.map((single,index)=>(
+                <View key={index} style={styles.mainbox}>
+                    <TouchableOpacity>
+                      <View style={styles.innerup}>
+                          <Text style={styles.fontvalue}>{single.code}</Text>
+                          <ArrowForwardIcon style={{color:"#6DB1E1",marginLeft:180,marginTop:-5}} />
+                      </View>
+                      <View style={styles.innerdown}>
+                          <Text style={styles.fontvalue}>Seller</Text>
+                          <Text style={styles.fontvalue}>{single.seller}</Text>
+                      </View>
+                      <View style={styles.innerdown}>
+                          <Text style={styles.fontvalue}>Address</Text>
+                          <Text style={styles.fontvalue}>{single.address}</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <View style={styles.outerdown}>
+                      <View style={styles.outer1}><Text style={{color:'#6DB1E1',fontWeight:'700'}}>CALL CUSTOMER</Text></View>
+                      <View style={styles.outer1}><Text style={{color:'#6DB1E1',fontWeight:'700'}}>GET DIRECTIONS</Text></View>
+                  </View>
+              </View>
         ))}
 
         </ScrollView>

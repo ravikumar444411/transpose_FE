@@ -6,6 +6,8 @@ import Dashboard from './src/Dashboard';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Scanbarcode from './src/Scanbarcode';
+import PickupDashboard from './src/ForthPage/PickupDashboard';
+import Main from './src/ForthPage/Main';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +30,10 @@ function App() {
             header:()=>null         
           }} />
       <Stack.Screen name="barcode" component={Scanbarcode}   
+        options={{ 
+            header:()=>null         
+          }} />
+      <Stack.Screen name="main" component={Main}   
         options={{ 
             header:()=>null         
           }} />
