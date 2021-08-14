@@ -40,7 +40,7 @@ const Pickup = () => {
                 <ArrowForwardIcon style={{color:"#67a4f5",marginLeft:180,marginTop:-5}} />
             </View>
             <View style={styles.innerdown}>
-                <Text style={styles.fontvalue}>Sellar</Text>
+                <Text style={styles.fontvalue}>Seller</Text>
                 <Text style={styles.fontvalue}>{single.date.substr(0,10)}</Text>
                 <Text style={styles.fontvalue}>Shipment</Text>
                 <Text style={styles.fontvalue}>{single.shipments}</Text>

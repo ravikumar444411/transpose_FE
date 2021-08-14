@@ -12,6 +12,8 @@ target 'transpose' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-signature-capture', :path => '../node_modules/react-native-signature-capture'
+
   target 'transposeTests' do
     inherit! :complete
     # Pods for testing

@@ -5,33 +5,38 @@ import Pickup from './src/Pickup';
 import Dashboard from './src/Dashboard';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import PickupDashboard from './src/PickupDashboard';
+import SignatureCapture from 'react-native-signature-capture';
+
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
-    <NativeBaseProvider>
+
+  <NativeBaseProvider>
     <NavigationContainer>
-    <Stack.Navigator  initialRouteName={'Login'}>
-      <Stack.Screen name="Login" component={Login}   
-        options={{ 
-            header:()=>null         
-          }} />
-      <Stack.Screen name="dashboard" component={Dashboard}   
-        options={{ 
-            header:()=>null         
-          }} />
-      <Stack.Screen name="pickup" component={Pickup}   
-        options={{ 
-            header:()=>null         
-          }} />
-    </Stack.Navigator>
+ <Stack.Navigator  initialRouteName={'Login'}>
+     <Stack.Screen name="Login" component={Login}   
+  options={{ 
+  header:()=>null         
+    }} />
+  <Stack.Screen name="dashboard" component={Dashboard}   
+  options={{ 
+    header:()=>null         
+     }} />
+ <Stack.Screen name="pickup" component={Pickup}   
+     options={{ 
+       header:()=>null         
+     }} />
+ </Stack.Navigator>      
   </NavigationContainer>
-  </NativeBaseProvider>
+</NativeBaseProvider>    
+
+
 
   );
 }
 
 
 export default App;
-
