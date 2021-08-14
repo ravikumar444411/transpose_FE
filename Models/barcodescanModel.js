@@ -7,18 +7,6 @@ let barcodescanSchema = new mongoose.Schema({
         type: String, // barcode data
         default: ""
     },
-    pending: {
-        type: Boolean, // denotes whether barcode scanning is pending
-        default: 0
-    },
-    completed: {
-        type: Boolean, // denotes whether barcode scanning is completed
-        default: 0
-    },
-    cancelled: {
-        type: Boolean, // denotes whether barcode scanning is cancelled
-        default: 0
-    },
     isSuccess : {
         type: Boolean, // denotes whether verification using barcode is successful
         default: false
