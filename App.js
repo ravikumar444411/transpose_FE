@@ -5,6 +5,7 @@ import Pickup from './src/Pickup';
 import Dashboard from './src/Dashboard';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import Scanbarcode from './src/Scanbarcode';
 
 const Stack = createStackNavigator();
 
@@ -12,7 +13,7 @@ function App() {
   return (
     <NativeBaseProvider>
     <NavigationContainer>
-    <Stack.Navigator  initialRouteName={'Login'}>
+    <Stack.Navigator  initialRouteName={'barcode'}>
       <Stack.Screen name="Login" component={Login}   
         options={{ 
             header:()=>null         
@@ -22,6 +23,10 @@ function App() {
             header:()=>null         
           }} />
       <Stack.Screen name="pickup" component={Pickup}   
+        options={{ 
+            header:()=>null         
+          }} />
+      <Stack.Screen name="barcode" component={Scanbarcode}   
         options={{ 
             header:()=>null         
           }} />
