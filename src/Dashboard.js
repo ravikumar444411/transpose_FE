@@ -14,6 +14,7 @@ const colors = {
   tint: "#2b49"
 } 
 
+//GET data from Herokupp i.e. Delivery Count, Pickup and Cash etc
 
 const Example = () => {
 
@@ -70,6 +71,8 @@ const Example = () => {
   )
     }
 
+
+//Dashboard CSS
 
 const styles = StyleSheet.create({
   normal:{

@@ -3,6 +3,7 @@ import { VStack, Input, Button, IconButton, Icon, Text, NativeBaseProvider, Cent
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 
+//Search Bar Function
 
 export default function SearchBar(){
   return (

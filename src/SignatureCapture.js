@@ -38,6 +38,8 @@ const SignatureCapture = () => {
   };
 
   return (
+
+    //SignatureCapture Canvas
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <Text style={styles.titleStyle}>
@@ -74,6 +76,7 @@ const SignatureCapture = () => {
 };
 export default SignatureCapture();
 
+//Styles CSS
 const styles = StyleSheet.create({
   container: {
     flex: 1,

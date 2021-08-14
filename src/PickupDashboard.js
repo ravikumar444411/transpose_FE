@@ -9,6 +9,7 @@ import TabViewExample from './TabView';
 
 
 
+//GET DATA from Pickup API
 
 const PickupDashboard = () => {
   
@@ -24,7 +25,7 @@ const PickupDashboard = () => {
 
 
  
-    
+    //Main page
     
     return (
 
@@ -86,6 +87,8 @@ const PickupDashboard = () => {
 
         {/* Pie ends */}
 <TabViewExample />
+
+
             {data.map(single=>(
                 <View style={styles.mainbox}>
             <TouchableOpacity>
@@ -121,6 +124,7 @@ const PickupDashboard = () => {
 
 export default PickupDashboard;
 
+//Styles CSS
 
 export const styles = StyleSheet.create({
     containter:{

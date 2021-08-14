@@ -29,6 +29,9 @@ const Scanbarcode = () => {
     //     }); 
     // })
 
+
+    //POST Backend API
+
    const onSuccess = e => {
         console.log(e.data)
       
@@ -98,7 +101,6 @@ const Scanbarcode = () => {
 
 
 
-
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton />
@@ -130,6 +132,8 @@ const Scanbarcode = () => {
 };
 
 export default Scanbarcode;
+
+//Styles CSS
 
 export const styles = StyleSheet.create({
     photo1:{
