@@ -10,6 +10,7 @@ import {getShipments} from '../Config';
 
 
 
+//GET DATA from Pickup API
 
 const PickupDashboard = () => {
   
@@ -25,7 +26,7 @@ const PickupDashboard = () => {
 
 
  
-    
+    //Main page
     
     return (
 
@@ -68,6 +69,7 @@ const PickupDashboard = () => {
 
 export default PickupDashboard;
 
+//Styles CSS
 
 export const styles = StyleSheet.create({
     containter:{

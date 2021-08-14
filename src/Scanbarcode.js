@@ -44,6 +44,9 @@ console.log(otp)
       console.log(error);
     });
 }
+
+    //POST Backend API
+
    const onSuccess = e => {
         console.log(e.data)
       
@@ -114,7 +117,6 @@ console.log(otp)
 
 
 
-
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton />
@@ -147,6 +149,8 @@ console.log(otp)
 };
 
 export default Scanbarcode;
+
+//Styles CSS
 
 export const styles = StyleSheet.create({
     photo1:{

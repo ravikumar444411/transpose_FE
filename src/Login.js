@@ -38,6 +38,9 @@ export default function Login() {
 
   
  return (
+
+  //Native Base based Login Tab window
+
       <NativeBaseProvider>
           <Box flex={1}>
           {/* <Heading size="lg" color='dark.500'  > Login Tab</Heading>   */}
@@ -54,6 +57,7 @@ export default function Login() {
         <Heading color="muted.400" size="xs">
           Sign in to continue!
         </Heading>
+
 
         <VStack space={2} mt={5}>
           <FormControl>
@@ -79,8 +83,7 @@ export default function Login() {
           <Button colorScheme="cyan" _text={{color: 'white' }} onPress={handleLogin}>
               Login
           </Button>
-
-
+          
           </VStack>
           <HStack justifyContent="center">
             <Text fontSize='sm' color='muted.700' fontWeight={400}>I'm a new user. </Text>

@@ -4,6 +4,8 @@ import { TabView, SceneMap } from 'react-native-tab-view';
 import {NativeBaseProvider,Box, Text} from 'native-base';
 import Constants from 'expo-constants';
 
+//Tab Routes
+
 const FirstRoute = () => (
   <Box flex={1} bg="pink.400" />
 );
@@ -26,6 +28,7 @@ const renderScene = SceneMap({
 
 export default function TabViewExample() {
 
+//Setting const routes/tabs
 
 
 
@@ -49,6 +52,7 @@ export default function TabViewExample() {
           });
 
           return (
+            //Primary Function that will export in every tab i.e. Dynamic
             <Box
              flex = {1}
               alignItems= 'center'
@@ -71,7 +75,11 @@ export default function TabViewExample() {
   };
 
   return (
+<<<<<<< HEAD:src/TabViewExample.js
     <NativeBaseProvider>
+=======
+    //TabView Overview
+>>>>>>> 6535d92fbf59f3b054f8dc374eeb5adc3a8b79a4:src/TabView.js
     <TabView
       navigationState={{ index, routes }}
       renderScene={renderScene}

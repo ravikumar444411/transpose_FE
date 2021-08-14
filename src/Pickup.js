@@ -4,6 +4,9 @@ import axios from 'axios'
 import{StyleSheet,Text,TouchableOpacity,View, ScrollView, TextInput,getPick} from 'react-native';
 import {getPickup} from './Config'
 
+
+//Main Box or Pickup Window container-Static
+
 const Mainbox =()=>{
     return <TouchableOpacity style={styles.mainbox}>
     <View style={styles.innerup}>
@@ -11,7 +14,7 @@ const Mainbox =()=>{
         <ArrowForwardIcon style={{color:"#67a4f5",marginLeft:40,marginTop:-5}} />
     </View>
     <View style={styles.innerdown}>
-        <Text style={styles.fontvalue}>Sellar</Text>
+        <Text style={styles.fontvalue}>Seller</Text>
         <Text style={styles.fontvalue}>4</Text>
         <Text style={styles.fontvalue}>Shipment</Text>
         <Text style={styles.fontvalue}>164</Text>
@@ -28,6 +31,9 @@ const Pickup = () => {
             // alert(error);
         }); 
     })
+
+    //Pickup Dashboard Dyanmic tab and data allocation
+
     return (
     <Container style={styles.containter}>
       
@@ -54,6 +60,8 @@ const Pickup = () => {
 };
 
 export default Pickup;
+
+//Styles CSS
 
 export const styles = StyleSheet.create({
     containter:{
