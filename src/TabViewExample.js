@@ -75,11 +75,7 @@ export default function TabViewExample() {
   };
 
   return (
-<<<<<<< HEAD:src/TabViewExample.js
-    <NativeBaseProvider>
-=======
     //TabView Overview
->>>>>>> 6535d92fbf59f3b054f8dc374eeb5adc3a8b79a4:src/TabView.js
     <TabView
       navigationState={{ index, routes }}
       renderScene={renderScene}
