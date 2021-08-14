@@ -2,17 +2,21 @@ import { Container,ArrowForwardIcon } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import{StyleSheet,Text,TouchableOpacity,View, ScrollView, TextInput,getPick,Image} from 'react-native';
-import {getPickup} from './Config'
+import {getPickup, postScan} from './Config'
 import { width } from 'styled-system';
 import { Option } from './ScanBorcode/Option';
 import { OtpPopup } from './ScanBorcode/OtpPopup';
-import { Button, Modal, Center,Input, NativeBaseProvider } from "native-base"
+import { Button, Center,Input, Modal } from "native-base"
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee,faCheckCircle,faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import ScanQrCode from './ScanBorcode/ScanQrCode';
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera } from 'react-native-camera';
 
 const Scanbarcode = () => {
-    const [data,setData] = useState("");
+    const [barcodeValue,setBarcodeValue] = useState("");
+    const [showModal, setShowModal] = useState(false)
+    
     // useEffect(()=>{
     //     const reqdata = {
     //         "barcodeData" : "123-456-789"
@@ -25,13 +29,22 @@ const Scanbarcode = () => {
     //     }); 
     // })
 
+   const onSuccess = e => {
+        console.log(e.data)
+      
+        
+    axios.post(postScan,{barcodeData:e.data})
+    .then((response) => {
+     console.log(response)
+     if(response.status==201){
+         setBarcodeValue(e.data)
+         setShowModal(true)
+     }
 
-    const handleScan=()=>{
-        setData("scan data is successfully")
-    }
-    const handleScan2=()=>{
-        setData("scan data is successfully again")
-    }
+   }, (error) => {
+      console.log(error);
+  }); 
+      };
     return (
     <Container style={styles.containter}>
         <View style={styles.iconbar}>
@@ -39,11 +52,17 @@ const Scanbarcode = () => {
      <Image style={styles.photo2} source={require('./file/reload2.png')} />
      </View>
     <View style={styles.iconbar}>
-        <TouchableOpacity style={styles.scanbtn} onPress={handleScan}><Text style={{color:'white'}}>Scan is</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.scanbtn2} onPress={handleScan2}><Text style={{color:'#549ee3'}}>Manually</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.scanbtn} ><Text style={{color:'white'}}>Scan is</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.scanbtn2} ><Text style={{color:'#549ee3'}}>Manually</Text></TouchableOpacity>
      </View>
      <View style={{flex: 1,backgroundColor:'green',width:280,height:500,marginTop:20,overflow:'hidden'}}>
-      <ScanQrCode/>
+     <QRCodeScanner
+        onRead={onSuccess}
+        containerStyle={{flex: 1,backgroundColor:'green',width:280,height:500,marginTop:20}}
+        // flashMode={false}
+        // flashMode={RNCamera.Constants.FlashMode.torch}
+
+      />
       </View>
 
       {/* content start */}
@@ -63,7 +82,6 @@ const Scanbarcode = () => {
             </View>
            {/* content end */}
 
-      <OtpPopup/>
       <Option/>
       {/* save button */}
       <View style={styles.iconbar}>
@@ -77,6 +95,36 @@ const Scanbarcode = () => {
      
      </View>
         {/* save button end */}
+
+
+
+
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Content maxWidth="400px">
+          <Modal.CloseButton />
+          <Modal.Header>Otp</Modal.Header>
+          <Modal.Body>
+          <Input
+                w="100%"
+                mx={3}
+                placeholder="Enter otp here"
+                _light={{
+                    placeholderTextColor: "blueGray.400",
+                }}
+                _dark={{
+                    placeholderTextColor: "blueGray.50",
+                }}
+                />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button.Group variant="ghost" space={2}>
+              <Button  colorScheme="danger">Resend Otp</Button>
+              <Button  colorScheme="success" onPress={() =>   setShowModal(false) } >  Save </Button>
+            </Button.Group>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
+
 </Container>
     );
 };
