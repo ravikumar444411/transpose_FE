@@ -11,7 +11,8 @@ const Stack = createStackNavigator();
 
 function App() {
   return (
-    <NativeBaseProvider>
+
+  <NativeBaseProvider>
     <NavigationContainer>
     <Stack.Navigator  initialRouteName={'barcode'}>
       <Stack.Screen name="Login" component={Login}   
@@ -32,11 +33,12 @@ function App() {
           }} />
     </Stack.Navigator>
   </NavigationContainer>
-  </NativeBaseProvider>
+</NativeBaseProvider>    
+
+
 
   );
 }
 
 
 export default App;
-
