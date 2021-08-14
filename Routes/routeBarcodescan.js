@@ -41,14 +41,16 @@ router.post('/scan',bodyParser,(req,res)=> {
 
         if(record == null || record == undefined) {
             
-            // insert record into the database if not already present
             let barcode = new Barcodescan(barData);
+            // checking whether all the required fields of the collection are included or not
             let err = barcode.validateSync();
 
             if(err == undefined) {
+                // insert record into the database if not already present
                 postBarcode(barData,"Test-Topics1");
                 res.status(201).json({'otp':otp,'pending':true,'completed':false});
             } else {
+                // send error if all the compulsory fields are not covered
                 res.status(500).json({'msg':'All required fields not covered'});
             }
             

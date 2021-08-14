@@ -48,14 +48,16 @@ router.post('/signup',bodyParser,async(req,res)=> {
     };
 
     let user = new User(details);
+    // checking whether all the required fields of the collection are included or not
     let err = user.validateSync();
 
     if(err == undefined) {
-        // insertion of records in User database
+        // insert record into the database if not already present
         postAuth(details,"Test-Topics");
         console.log('signup successful!');
         res.status(201).send('signup successful!');
     } else {
+        // send error if all the compulsory fields are not covered
         res.status(500).json({'msg':'All required fields not covered'});
     }
     

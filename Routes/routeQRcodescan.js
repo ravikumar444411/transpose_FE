@@ -41,14 +41,16 @@ router.post('/scan',bodyParser,(req,res)=> {
 
         if(record == null || record == undefined) {
             
-            // insert record into the database if not already present
             let qrcode = new Qrcodescan(qrData);
+            // checking whether all the required fields of the collection are included or not
             let err = qrcode.validateSync();
 
             if(err == undefined) {
+                // insert record into the database if not already present
                 postQrcode(qrData,"Test-Topics6");
                 res.status(201).json({'otp':otp,'pending':true,'completed':false});
             } else {
+                // send error if all the compulsory fields are not covered
                 res.status(500).json({'msg':'All required fields not covered'});
             }
             
