@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_"},{"v":2,"key":{"incr":1,"username":1},"name":"incr_1_username_1","background":true}],"uuid":"833edf1e1b0b4ec7a5051e3b676e74aa"}
