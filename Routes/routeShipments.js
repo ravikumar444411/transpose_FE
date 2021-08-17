@@ -7,6 +7,7 @@ let dbConnect = require('../DB-Connect/connect-db');
 var bodyParser = require('body-parser');
 const { findById } = require('../Models/shipmentModel');
 const pickupModel=require('../Models/pickupModel');
+const { route } = require('./routeMenu');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 mongoose.Promise=global.Promise;
@@ -32,6 +33,77 @@ router.get('/getShipmentsWithId',async (req,res) => {
     const find=await req.query.id;
     
     shipmentModel.find({relation:find}).exec((err,data)=>{
+        if(err){
+             console.log('error users not found');
+            res.send(err);
+        }else{
+           
+            res.send(data);
+        }
+    });
+});
+
+
+//GET request on '/shipments/getShipmentsWithId'
+//getting particular shipments related to a pickup time or charge sheet 
+router.get('/getShipmentsWithSeller',async (req,res)=>{ 
+    //getting 'seller' Name from query parameter send to us
+    const find=await req.query.seller;
+    //{'$regex': find,$options:'i'} this line makes our query case insensitive
+    shipmentModel.find({seller:{'$regex': find,$options:'i'}}).exec((err,data)=>{
+        if(err){
+             console.log('error users not found');
+            res.send(err);
+        }else{
+           
+            res.send(data);
+        }
+    });
+});
+
+
+//GET request on '/shipments/getShipmentsWithId'
+//getting particular shipments related to a pickup time or charge sheet 
+router.get('/getShipmentsWithCity',async (req,res)=>{ 
+    //getting city from query parameter send to us
+    const find=await req.query.city;
+    //{'$regex': find,$options:'i'} this line makes our query case insensitive
+    shipmentModel.find({city:{'$regex': find,$options:'i'}}).exec((err,data)=>{
+        if(err){
+             console.log('error users not found');
+            res.send(err);
+        }else{
+           
+            res.send(data);
+        }
+    });
+});
+
+
+//GET request on '/shipments/getShipmentsWithId'
+//getting particular shipments related to a pickup time or charge sheet 
+router.get('/getShipmentsWithPincode',async (req,res)=>{ 
+    //getting pincode from query parameter send to us
+    const find=await req.query.pincode;
+    shipmentModel.find({pincode:find}).exec((err,data)=>{
+        if(err){
+             console.log('error users not found');
+            res.send(err);
+        }else{
+           
+            res.send(data);
+        }
+    });
+});
+
+
+//GET request on '/shipments/getShipmentsWithId'
+//getting particular shipments related to a pickup time or charge sheet 
+router.get('/getShipmentsWithtype',async (req,res)=>{ 
+    //getting 'type' of shipment (i.e. delivery of pickup case insensitive) from query parameter send to us
+    const find=await req.query.type;
+    //{'$regex': find,$options:'i'} this line makes our query case insensitive
+    shipmentModel.find({type:{'$regex': find,$options:'i'}}).exec((err,data)=>{
         if(err){
              console.log('error users not found');
             res.send(err);
