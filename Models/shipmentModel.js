@@ -17,6 +17,22 @@ let menuSchema = new mongoose.Schema({
       type: String,
       required:true,
     },
+    pincode:{
+      type:Number,
+      required:true
+    },
+    city:{
+      type:String,
+      required:true
+    },
+    state:{
+      type:String,
+      required:true
+    },
+    type:{
+      type:String,
+      required:true
+    },
     phone: {
         type: String,
         validate: {
