@@ -24,6 +24,7 @@
     "mongoose": "^5.13.3",
     "mongoose-encryption": "^2.1.0",
     "node-rdkafka": "^2.10.1",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "trie-prefix-tree": "^1.5.1"
   }
 }

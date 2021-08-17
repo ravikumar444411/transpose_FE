@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 // let insertRecords = require('../OperationsModules/insertSellers');
 let postSellers = require('../Kafka/producer');
+let Trie = require('trie-prefix-tree');
 mongoose.Promise=global.Promise;
 
 //GET request on '/sellers/getSellers'
@@ -43,6 +44,7 @@ router.post('/postSellers', urlencodedParser, async function (req, res) {
         res.status(500).json({msg:'Sorry, internal Server errors',error:err});
     }else{
         //this function puts the new data in seller database using kafka here we give topic name connected to sellers
+        newUser.storage.addWord(newUser.seller);
         postSellers(newUser, "Test-Topics7");
         res.status(200).json({msg:'your data has been saved'})
     }

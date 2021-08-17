@@ -1,4 +1,5 @@
 let mongoose=require('mongoose');
+let Trie = require('trie-prefix-tree');
 
 //this is incomplete and wrong
 let menuSchema = new mongoose.Schema({

@@ -16,6 +16,7 @@ let routeSellers = require('./Routes/routeSellers');
 let routeBarcode = require('./Routes/routeBarcodescan');
 // let routeQRcode = require('./Routes/routeQRcodescan');
 let routeShipments=require('./Routes/routeShipments');
+let routeSearch = require('./Routes/routeSearch');
 let {store,secret,conn} = require('./DB-Connect/connect-db');
 
 let port = process.env.PORT || 3000;
@@ -50,6 +51,7 @@ app.use('/barcode',routeBarcode);
 // app.use('/qrcode',routeQRcode);
 app.use('/sellers',routeSellers);
 app.use('/shipments',routeShipments);
+app.use('/search',routeSearch);
 // port = Math.floor(Math.random()*8976+1024);
 app.listen(port,()=> {
     console.log(`The server is connected to ${port}`);
