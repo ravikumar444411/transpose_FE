@@ -4,6 +4,7 @@ const menuModel=require('../Models/menuModel');
 const handOverModel=require('../Models/handoverModel');
 const pickUpModel=require('../Models/pickupModel');
 const deliveryModel=require('../Models/deliveryModel');
+const shipmentModel=require('../Models/shipmentModel');
 const mongoose=require('mongoose');
 let dbConnect = require('../DB-Connect/connect-db');
 // const DB='mongodb+srv://new-user1:SptGo9T4Kg4W9PbL@cluster0.mp33i.mongodb.net/logistiexdb?retryWrites=true&w=majority';
@@ -20,8 +21,8 @@ router.get('/getMenu',async (req,res) => {
 
     //countDocuments count all documents from that collection for a specific condition here there is no condition
      const data= {
-        deliveries:await deliveryModel.countDocuments({}),
-        pickUp:await pickUpModel.countDocuments({}),
+        deliveries:await shipmentModel.countDocuments({type:"Delivery"}),
+        pickUp:await shipmentModel.countDocuments({type:"Pickup"}),
         handOver:await handOverModel.countDocuments({}),
         price:1222,
         id:Math.random(),
