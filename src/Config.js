@@ -8,3 +8,4 @@ export const postScan = `${baseurl}barcode/scan`
 export const getSellers = `${baseurl}sellers/getSellers`
 export const getShipments = `${baseurl}shipments/getShipments`
 export const getValidate = `${baseurl}barcode/validate`
+export const getFilter = `${baseurl}shipments/getShipmentsWithType?type=`

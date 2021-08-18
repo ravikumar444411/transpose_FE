@@ -10,16 +10,19 @@ import {
   View,
   Text,
   TouchableHighlight,
+  TouchableOpacity,
 } from 'react-native';
 
 import SignatureCapture from 'react-native-signature-capture';
+import { useNavigation } from '@react-navigation/native';
 
-const SignatureCapture = () => {
+const FinalScreen = () => {
   const sign = createRef();
+  const navigation = useNavigation();
 
   const saveSign = () => {
     sign.current.saveImage();
-  };
+  }
 
   const resetSign = () => {
     sign.current.resetImage();
@@ -28,7 +31,10 @@ const SignatureCapture = () => {
   const _onSaveEvent = (result) => {
     //result.encoded - for the base64 encoded png
     //result.pathName - for the file path name
-    alert('Signature Captured Successfully');
+    alert('Signature Captured Successfully and verified');
+    setTimeout(()=>{
+      navigation.navigate('barcode');
+    },3000)
     console.log(result.encoded);
   };
 
@@ -43,7 +49,7 @@ const SignatureCapture = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <Text style={styles.titleStyle}>
-          Capture Digital Signature in React Native App
+         Please Signature for final verification
         </Text>
         <SignatureCapture
           style={styles.signature}
@@ -55,18 +61,14 @@ const SignatureCapture = () => {
           viewMode={'portrait'}
         />
         <View style={{flexDirection: 'row'}}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.buttonStyle}
-            onPress={() => {
-              saveSign();
-            }}>
+            onPress={saveSign}>
             <Text>Save</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
           <TouchableHighlight
             style={styles.buttonStyle}
-            onPress={() => {
-              resetSign();
-            }}>
+            onPress={resetSign}>
             <Text>Reset</Text>
           </TouchableHighlight>
         </View>
@@ -74,7 +76,7 @@ const SignatureCapture = () => {
     </SafeAreaView>
   );
 };
-export default SignatureCapture();
+export default FinalScreen;
 
 //Styles CSS
 const styles = StyleSheet.create({

@@ -26,14 +26,14 @@ export default function Login() {
 
   const handleLogin=()=>{
     console.log(email,password)
+    navigation.navigate('dashboard');
+  //   axios.post(loginUrl,{email:email, password:password})
+  //   .then((response) => {
+  //     navigation.navigate('dashboard');
 
-    axios.post(loginUrl,{email:email, password:password})
-    .then((response) => {
-      navigation.navigate('dashboard');
-
-   }, (error) => {
-      // alert(error);
-  }); 
+  //  }, (error) => {
+  //     // alert(error);
+  // }); 
   }
 
   

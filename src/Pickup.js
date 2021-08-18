@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'
 import{StyleSheet,Text,TouchableOpacity,View, ScrollView, TextInput,getPick} from 'react-native';
 import {getPickup} from './Config'
-
+import { useNavigation } from '@react-navigation/native';
 
 //Main Box or Pickup Window container-Static
 
@@ -23,6 +23,7 @@ const Mainbox =()=>{
 }
 const Pickup = () => {
     const [data,setData] = useState([]);
+    const navigation = useNavigation();
     useEffect(()=>{
         axios.get(getPickup)
             .then((res) => {
@@ -40,7 +41,7 @@ const Pickup = () => {
     <Text style={{marginTop:-20},styles.fontvalue}>please select a pickup to work on</Text>
         <ScrollView style={styles.homepage} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
             {data.map(single=>(
-            <TouchableOpacity style={styles.mainbox}>
+            <TouchableOpacity style={styles.mainbox} onPress={()=> navigation.navigate('main')}>
             <View style={styles.innerup}>
                 <Text style={styles.fontvalue}>{single.title}</Text>
                 <ArrowForwardIcon style={{color:"#67a4f5",marginLeft:180,marginTop:-5}} />

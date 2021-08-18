@@ -12,24 +12,33 @@ import { faCoffee,faCheckCircle,faMapMarkerAlt } from '@fortawesome/free-solid-s
 import ScanQrCode from './ScanBorcode/ScanQrCode';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
+import { useNavigation } from '@react-navigation/native';
 
 const Scanbarcode = () => {
     const [barcodeValue,setBarcodeValue] = useState("");
     const [otp,setOtp] = useState('');
     const [showModal, setShowModal] = useState(false)
+    const [refresh, setRefresh] = useState(false)
+    const [pending, setPending] = useState(0)
+    const [complete, setComplete] = useState(0)
+    const [cancel, setCancel] = useState(0)
+    const navigation = useNavigation();
+
 
     
-    // useEffect(()=>{
-    //     const reqdata = {
-    //         "barcodeData" : "123-456-789"
-    //     }
-    //     axios.post(getPickup,reqdata)
-    //         .then((res) => {
-    //             setData("scan data is successfully")
-    //     }, (error) => {
-    //         setData("Something went wring");
-    //     }); 
-    // })
+    useEffect(()=>{
+        axios.get(postScan)
+            .then((res) => {
+                console.log(res.data)
+                setPending(res.data.pending)
+                setComplete(res.data.completed)
+                setCancel(res.data.cancelled)
+        }, (error) => {
+            console.log(error);
+        }); 
+    },[refresh])
+
+// for otp
 const reSendHandle=()=>{
 console.log(otp)
 
@@ -39,6 +48,7 @@ console.log(otp)
     if(response.status==200){
       setShowModal(false);
       alert(response.data.msg)
+      setRefresh(refresh)
     }
     }, (error) => {
       console.log(error);
@@ -58,6 +68,8 @@ console.log(otp)
      if(response.status==201){
          setBarcodeValue(e.data)
          setShowModal(true)
+         navigation.navigate('sign');
+
      }
 
    }, (error) => {
@@ -88,15 +100,15 @@ console.log(otp)
       <View style={styles.mainbox}>
               <View style={styles.smallbox}>
                 <Text style={styles.text1}>PEDDING</Text>
-                <Text style={styles.text1}>15</Text>
+                <Text style={styles.text1}>{pending}</Text>
               </View>
               <View style={styles.smallbox}>
                 <Text style={styles.text2}>COMPLETED</Text>
-                <Text style={styles.text2}>15</Text>
+                <Text style={styles.text2}>{complete}</Text>
               </View>
               <View style={styles.smallbox}>
                 <Text style={styles.text3}>CANCEL</Text>
-                <Text style={styles.text3}>15</Text>
+                <Text style={styles.text3}>{cancel}</Text>
               </View>
             </View>
            {/* content end */}

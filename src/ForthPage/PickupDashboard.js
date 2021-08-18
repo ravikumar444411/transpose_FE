@@ -2,12 +2,12 @@ import { Container,ArrowForwardIcon } from 'native-base';
 import React, { useEffect, useState, Component } from 'react';
 import axios from 'axios'
 import{StyleSheet,Text,TouchableOpacity,View, ScrollView,TextInput,getPick} from 'react-native';
-import {getShipments} from '../Config';
+import {getFilter, getShipments} from '../Config';
 // import TabMenu from '../TabMenu';
 // import Pie from 'react-native-pie';
 // import SearchBar from './SearchBar';
 // import TabMenuExample from './TabMenu';
-
+import { useNavigation } from '@react-navigation/native';
 
 
 //GET DATA from Pickup API
@@ -15,8 +15,11 @@ import {getShipments} from '../Config';
 const PickupDashboard = () => {
   
     const [data,setData] = useState([]);
+    const [type,setType] = useState('delivery');
+    const navigation = useNavigation();
+
     useEffect(()=>{
-        axios.get(getShipments)
+        axios.get(`${getFilter}pickup`)
             .then((res) => {
                 setData(res.data)
         }, (error) => {
@@ -32,19 +35,12 @@ const PickupDashboard = () => {
 
 
     <Container style={styles.containter}>
-      
-    <Text style={{marginTop:-20},styles.fontvalue}>PENDING()</Text>
-    {/* <SearchBar /> */}
-
-
-
-        <ScrollView style={styles.homepage} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
          {data.map((single,index)=>(
                 <View key={index} style={styles.mainbox}>
                     <TouchableOpacity>
                       <View style={styles.innerup}>
                           <Text style={styles.fontvalue}>{single.code}</Text>
-                          <ArrowForwardIcon style={{color:"#6DB1E1",marginLeft:180,marginTop:-5}} />
+                          <ArrowForwardIcon style={{color:"#6DB1E1",marginLeft:180,marginTop:-5}} onPress={()=>navigation.navigate('barcode')} />
                       </View>
                       <View style={styles.innerdown}>
                           <Text style={styles.fontvalue}>Seller</Text>
@@ -62,7 +58,7 @@ const PickupDashboard = () => {
               </View>
         ))}
 
-        </ScrollView>
+
             </Container>
     );
 };
