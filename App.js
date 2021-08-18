@@ -17,7 +17,7 @@ function App() {
 
   <NativeBaseProvider>
     <NavigationContainer>
-    <Stack.Navigator  initialRouteName={'main'}>
+    <Stack.Navigator  initialRouteName={'Login'}>
       <Stack.Screen name="Login" component={Login}   
         options={{ 
             header:()=>null         
