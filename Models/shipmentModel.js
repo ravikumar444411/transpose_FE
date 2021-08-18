@@ -48,8 +48,8 @@ let menuSchema = new mongoose.Schema({
         required:true,
     },
     delivered:{
-        type:Boolean,
-        default:false
+        type:Number,
+        default:0
     }
 },{timestamps:true});
 

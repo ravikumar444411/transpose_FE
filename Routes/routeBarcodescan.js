@@ -17,12 +17,53 @@ router.get('/',(req,res)=> {
 
 // GET request on '/barcode/scan' route
 router.get('/scan',async(req,res)=> {
-    const find=await req.query.type;
     let orderstatusrecord = await Orderstatus.find({}).sort({_id:1}).limit(1);
-    orderstatusrecord[0].pending=await shipmentModel.countDocuments({type:{'$regex': find,$options:'i'},delivered:false});
-    orderstatusrecord[0].completed=await shipmentModel.countDocuments({type:{'$regex': find,$options:'i'},delivered:true});
-    // orderstatusrecord[0].cancelled=0;
-    res.status(201).send({pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
+    const find=await req.query.type;
+    const relation=await req.query.relation;
+    const data=await shipmentModel.find({relation:relation});
+
+    let pending=0;
+    let completed=0;
+    let cancelled=0;
+    
+    if(find==undefined){
+        await data.map(package=>{
+            // console.log(package);
+            if(package.delivered==0){
+                pending++;
+            }else if(package.delivered==1){
+                completed++;
+            }else if( package.delivered==2){
+                cancelled++;
+            }
+        });
+        orderstatusrecord[0].pending=pending;
+        orderstatusrecord[0].completed=completed;
+        orderstatusrecord[0].cancelled=cancelled;
+        res.status(201).send({pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
+
+    }else{
+        await data.map(package=>{
+            // console.log(package);
+            if( package.type==find && package.delivered===0){
+                pending++;
+            }else if(package.type==find && package.delivered==1){
+                completed++;
+            }else if( package.type==find && package.delivered==2){
+                cancelled++;
+            }
+        });
+        orderstatusrecord[0].pending=pending;
+        orderstatusrecord[0].completed=completed;
+        orderstatusrecord[0].cancelled=cancelled;
+        res.status(201).send({pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
+
+        
+    }
+    // orderstatusrecord[0].pending=pending;
+    // orderstatusrecord[0].completed=completed;
+    // orderstatusrecord[0].cancelled=cancelled;
+    // res.status(201).send({pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
 });
 
 // POST request on '/barcode/scan' route
