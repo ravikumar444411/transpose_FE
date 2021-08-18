@@ -7,6 +7,7 @@ let Barcodescan = require('../Models/barcodescanModel');
 let Orderstatus = require('../Models/orderBarcodeStatus');
 let generateOTP = require('../OperationsModules/generateOTP');
 let postBarcode = require('../Kafka/producer');
+let shipmentModel = require('../Models/shipmentModel');
 const { compareSync } = require('bcrypt');
 
 // GET request on '/barcode' route
@@ -16,8 +17,11 @@ router.get('/',(req,res)=> {
 
 // GET request on '/barcode/scan' route
 router.get('/scan',async(req,res)=> {
+    const find=await req.query.type;
     let orderstatusrecord = await Orderstatus.find({}).sort({_id:1}).limit(1);
-    
+    orderstatusrecord[0].pending=await shipmentModel.countDocuments({type:{'$regex': find,$options:'i'},delivered:false});
+    orderstatusrecord[0].completed=await shipmentModel.countDocuments({type:{'$regex': find,$options:'i'},delivered:true});
+    // orderstatusrecord[0].cancelled=0;
     res.status(201).send({pending:orderstatusrecord[0].pending,completed:orderstatusrecord[0].completed,cancelled:orderstatusrecord[0].cancelled});
 });
 
