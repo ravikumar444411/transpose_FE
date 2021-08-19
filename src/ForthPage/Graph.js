@@ -6,17 +6,19 @@ import {
   Text,
 } from 'react-native'
 import Pie from 'react-native-pie'
-import { postScan } from '../Config';
+import { getGraph, postScan } from '../Config';
  
 export const Graph = (props) =>{
-    const [pending,setPending] = useState(0);
+    const [pending,setPending] = useState(100);
     const [complete,setComplete] = useState(0);
     const [cancel,setCancel] = useState(0);
+    const [filter,setFilter] = useState('Pickup');
     useEffect(()=>{
-        axios.get(postScan)
+        axios.get(`${getGraph}${filter}`)
             .then((res) => {
                 console.log(res.data)
                 var total = res.data.pending + res.data.completed + res.data.cancelled;
+                console.log(total)
                 setPending((res.data.pending*100)/total);
                 setComplete((res.data.completed*100)/total);
                 setCancel((res.data.cancelled*100)/total);
@@ -24,7 +26,7 @@ export const Graph = (props) =>{
             // alert(error);
         }); 
     },[])
-    console.log(props)
+    console.log(pending,complete,cancel)
     return (
            <View
             style={{
