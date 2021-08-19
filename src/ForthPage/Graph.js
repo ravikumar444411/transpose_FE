@@ -12,7 +12,7 @@ export const Graph = (props) =>{
     const [pending,setPending] = useState(100);
     const [complete,setComplete] = useState(0);
     const [cancel,setCancel] = useState(0);
-    const [filter,setFilter] = useState('Pickup');
+    const [filter,setFilter] = useState('Delivery');
     useEffect(()=>{
         axios.get(`${getGraph}${filter}`)
             .then((res) => {
